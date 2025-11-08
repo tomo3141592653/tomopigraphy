@@ -261,11 +261,30 @@
         <div class="upload-container">
             <h1 style="text-align: center; color: #00ff88; margin-bottom: 30px;">📸 写真アップロード</h1>
 
+            <!-- ⚠️ セットアップ警告 -->
+            <div class="auth-section" style="border-color: #ff4444;">
+                <h3 style="color: #ff4444;">⚠️ 初回セットアップが必要です</h3>
+                <p>
+                    このアップローダーを使用するには、以下の2つのセットアップが必要です：
+                    <br><br>
+                    <strong>1. AWS Lambda & API Gateway セットアップ</strong><br>
+                    詳しい手順は <code>aws-lambda/README.md</code> を参照してください。
+                    <br><br>
+                    <strong>2. フロントエンド設定</strong><br>
+                    <code>docs/js/upload.js</code> の <code>lambdaEndpoint</code> を更新：<br>
+                    <code style="display: block; margin-top: 10px; padding: 10px;">
+                    this.lambdaEndpoint = 'https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/prod/upload';
+                    </code>
+                    <br>
+                    <strong>📖 詳細:</strong> <a href="https://github.com/tomo3141592653/tomopigraphy#-web-based-uploader--webアップローダー推奨" target="_blank" style="color: #00ff88;">README セットアップ手順を開く</a>
+                </p>
+            </div>
+
             <!-- 認証セクション -->
             <div class="auth-section">
                 <h3>🔐 GitHub認証設定</h3>
                 <p>
-                    GitHub APIを使用して画像をアップロードするには、Personal Access Token (PAT) が必要です。
+                    GitHub APIを使用して画像処理をトリガーするには、Personal Access Token (PAT) が必要です。
                     <br><br>
                     <strong>🚀 最も簡単な方法:</strong><br>
                     1. <a href="https://github.com/settings/tokens/new" target="_blank" style="color: #00ff88; text-decoration: underline;">このリンクをクリック</a>してトークン作成ページを開く<br>

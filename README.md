@@ -27,8 +27,10 @@ A beautiful, modern photo gallery website with powerful upload management tools.
 ### 🚀 Technical Features / 技術的機能
 - **S3 Integration**: Seamless cloud storage with AWS S3
   - **S3統合**: AWS S3とのシームレスなクラウドストレージ
-- **Web-Based Uploader**: Upload photos directly from browser using GitHub API
-  - **Webアップローダー**: GitHub APIを使用してブラウザから直接写真をアップロード
+- **Direct S3 Upload**: Browser → Lambda → S3 (no Git bloat!)
+  - **S3直接アップロード**: ブラウザ → Lambda → S3（Gitの肥大化なし！）
+- **AWS Lambda**: Pre-signed URL generation for secure uploads
+  - **AWS Lambda**: セキュアなアップロード用のPre-signed URL生成
 - **Automatic Optimization**: Generates thumbnails and WebP formats
   - **自動最適化**: サムネイルとWebP形式の自動生成
 - **Command-Line Tools**: Simple upload scripts for batch operations
@@ -245,20 +247,30 @@ node scripts/setup.js
 
 ### 🌐 Web-Based Uploader / Webアップローダー（推奨）
 
-外出先からブラウザで写真をアップロードできます！GitHub経由で自動的にS3に転送されます。
+外出先からブラウザで写真をアップロードできます！S3に直接アップロードされるため、Gitリポジトリが肥大化しません。
 
 **セットアップ手順 / Setup Steps:**
 
-#### 1. GitHub Secretsの設定（初回のみ）
+#### 1. AWS Lambda & API Gateway の設定（初回のみ）
+
+詳細な手順は `aws-lambda/README.md` を参照してください。
+
+**概要:**
+1. Lambda関数を作成（`aws-lambda/generate-presigned-url.js`）
+2. API Gatewayで REST API を作成
+3. Lambda関数のIAM権限を設定（S3 PutObject）
+4. API エンドポイントURLを取得
+
+#### 2. GitHub Secretsの設定（初回のみ）
 
 1. GitHubリポジトリページを開く
 2. **Settings** → **Secrets and variables** → **Actions**
 3. 以下の3つのSecretを追加：
    - `AWS_ACCESS_KEY_ID`: AWSアクセスキー
    - `AWS_SECRET_ACCESS_KEY`: AWSシークレットキー
-   - `AWS_S3_BUCKET_NAME`: S3バケット名（例: `your-bucket-name`）
+   - `AWS_S3_BUCKET_NAME`: S3バケット名（例: `tomopigraphy`）
 
-#### 2. GitHub Personal Access Token (PAT) を作成
+#### 3. GitHub Personal Access Token (PAT) を作成
 
 1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
 2. 「Generate new token」をクリック
@@ -267,7 +279,15 @@ node scripts/setup.js
 
 📖 **詳しい手順**: [PAT_SETUP.md](docs/PAT_SETUP.md) を参照
 
-#### 3. 写真をアップロード
+#### 4. フロントエンド設定
+
+`docs/js/upload.js` の `lambdaEndpoint` を更新：
+
+```javascript
+this.lambdaEndpoint = 'https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/prod/upload';
+```
+
+#### 5. 写真をアップロード
 
 1. **アップロードページにアクセス**
    - サイトの `/upload.html` にアクセス
@@ -282,19 +302,18 @@ node scripts/setup.js
    - 「アップロード開始」ボタンをクリック
 
 4. **自動処理（バックグラウンド）**
-   - ✅ GitHubにコミット
-   - ✅ GitHub Actionsが自動実行
-   - ✅ S3にアップロード（サムネイル・WebP・レスポンシブ画像を自動生成）
-   - ✅ GitHubから元画像を削除（容量節約）
+   - ✅ Lambda経由でS3に直接アップロード（**Gitを経由しない**）
+   - ✅ GitHub Actionsが自動実行（repository_dispatch）
+   - ✅ サムネイル・WebP・レスポンシブ画像を自動生成
    - ✅ artworks.jsonを自動更新
 
 **処理時間**: 約1〜3分（GitHub Actions実行時間）
 
-**注意事項 / Notes:**
-- 画像は一時的にGitHubリポジトリにコミットされ、処理後に自動削除されます
-- 最終的にS3に保存されます（CDN配信、大容量対応）
-- 大きな画像ファイル（100MB以上）はGitHubの制限によりアップロードできません
-- 推奨: 10MB以下の画像を使用してください
+**利点 / Benefits:**
+- ✅ **Gitリポジトリが肥大化しない**（画像はS3のみに保存）
+- ✅ **大容量ファイル対応**（S3の制限: 5TB/ファイル）
+- ✅ **高速アップロード**（直接S3にアップロード）
+- ✅ **セキュア**（Pre-signed URL: 15分有効）
 
 **🔒 セキュリティに関する重要な注意 / Important Security Notes:**
 - ⚠️ **トークンはブラウザのlocalStorageに保存されます**

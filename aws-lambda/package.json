@@ -1,0 +1,10 @@
+{
+  "name": "tomopigraphy-lambda",
+  "version": "1.0.0",
+  "description": "AWS Lambda function for generating S3 pre-signed URLs",
+  "main": "generate-presigned-url.js",
+  "dependencies": {
+    "aws-sdk": "^2.1490.0"
+  }
+}
+

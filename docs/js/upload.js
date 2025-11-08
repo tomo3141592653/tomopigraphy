@@ -1,10 +1,12 @@
-// GitHub APIを使用した写真アップローダー
-class GitHubPhotoUploader {
+// S3直接アップロード対応の写真アップローダー
+class PhotoUploader {
     constructor() {
         this.selectedFiles = [];
         this.githubToken = null;
         this.repoOwner = null;
         this.repoName = null;
+        // Lambda API endpoint - 実際のエンドポイントに置き換えてください
+        this.lambdaEndpoint = 'YOUR_LAMBDA_API_ENDPOINT'; // 例: https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/prod/upload
         this.init();
     }
 
@@ -15,7 +17,7 @@ class GitHubPhotoUploader {
             document.getElementById('githubToken').value = this.githubToken;
         }
 
-        // リポジトリ情報を取得（GitHub PagesのURLから推測）
+        // リポジトリ情報を取得
         this.detectRepoInfo();
 
         // イベントリスナーを設定
@@ -24,7 +26,6 @@ class GitHubPhotoUploader {
 
     detectRepoInfo() {
         // GitHub PagesのURLからリポジトリ情報を推測
-        // 例: https://username.github.io/repo-name/ → owner: username, repo: repo-name
         const hostname = window.location.hostname;
         const pathname = window.location.pathname;
         
@@ -43,7 +44,6 @@ class GitHubPhotoUploader {
             const parts = hostname.split('.');
             if (parts.length >= 2) {
                 this.repoOwner = parts[0];
-                // pathnameからリポジトリ名を取得（通常は /repo-name/ の形式）
                 const pathParts = pathname.split('/').filter(p => p);
                 this.repoName = pathParts[0] || 'photo_site';
                 
@@ -52,8 +52,7 @@ class GitHubPhotoUploader {
                 localStorage.setItem('github_repo_name', this.repoName);
             }
         } else {
-            // ローカル開発環境の場合、デフォルト値を設定
-            // ユーザーが手動で設定できるようにする
+            // ローカル開発環境の場合
             const owner = prompt('GitHubユーザー名を入力してください:') || '';
             const name = prompt('リポジトリ名を入力してください:') || 'photo_site';
             
@@ -106,100 +105,101 @@ class GitHubPhotoUploader {
     }
 
     handleFiles(files) {
-        const imageFiles = Array.from(files).filter(file => {
-            if (!file.type.startsWith('image/')) {
-                return false;
-            }
-            // GitHubのファイルサイズ制限（100MB）をチェック
-            if (file.size > 100 * 1024 * 1024) {
-                this.showStatus(`❌ ${file.name} が大きすぎます（100MB以下にしてください）`, 'error');
-                return false;
-            }
-            return true;
-        });
-        
+        const imageFiles = Array.from(files).filter(file => 
+            file.type.startsWith('image/')
+        );
+
         if (imageFiles.length === 0) {
-            this.showStatus('画像ファイルを選択してください', 'error');
+            alert('画像ファイルを選択してください');
+            return;
+        }
+
+        // ファイルサイズチェック（100MB制限）
+        const oversizedFiles = imageFiles.filter(file => file.size > 100 * 1024 * 1024);
+        if (oversizedFiles.length > 0) {
+            alert(`以下のファイルは100MBを超えているためアップロードできません:\n${oversizedFiles.map(f => f.name).join('\n')}`);
             return;
         }
 
         this.selectedFiles = imageFiles;
         this.showPreview();
-        this.updateUploadButton();
     }
 
     showPreview() {
-        const previewSection = document.getElementById('previewSection');
-        const previewGrid = document.getElementById('previewGrid');
+        const preview = document.getElementById('imagePreview');
+        const section = document.getElementById('previewSection');
         
-        previewSection.style.display = 'block';
-        previewGrid.innerHTML = '';
-
+        preview.innerHTML = '';
+        
         this.selectedFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onload = (e) => {
-                const previewItem = document.createElement('div');
-                previewItem.className = 'preview-item';
-                
-                // ファイルサイズをフォーマット
-                const fileSize = (file.size / 1024 / 1024).toFixed(2);
-                
-                previewItem.innerHTML = `
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                div.innerHTML = `
                     <img src="${e.target.result}" alt="${file.name}">
-                    <button class="remove-btn" onclick="uploader.removeFile(${index})">×</button>
-                    <div class="file-info" style="position: absolute; bottom: 5px; left: 5px; background: rgba(0,0,0,0.7); padding: 3px 6px; border-radius: 3px; font-size: 11px;">
-                        ${fileSize} MB
-                    </div>
+                    <p>${file.name}</p>
+                    <small>${(file.size / 1024 / 1024).toFixed(2)} MB</small>
                 `;
-                previewGrid.appendChild(previewItem);
+                preview.appendChild(div);
             };
             reader.readAsDataURL(file);
         });
+
+        section.style.display = 'block';
     }
 
-    removeFile(index) {
-        this.selectedFiles.splice(index, 1);
-        if (this.selectedFiles.length === 0) {
-            document.getElementById('previewSection').style.display = 'none';
-        } else {
-            this.showPreview();
-        }
-        this.updateUploadButton();
-    }
-
-    updateUploadButton() {
-        const uploadBtn = document.getElementById('uploadBtn');
-        uploadBtn.disabled = this.selectedFiles.length === 0 || !this.githubToken;
+    showStatus(message, type = 'info') {
+        const statusDiv = document.getElementById('uploadStatus');
+        statusDiv.textContent = message;
+        statusDiv.className = `status ${type}`;
+        statusDiv.style.display = 'block';
     }
 
     async uploadImages() {
-        if (!this.githubToken) {
-            this.showStatus('GitHubトークンを設定してください', 'error');
+        if (this.selectedFiles.length === 0) {
+            alert('画像を選択してください');
             return;
         }
 
-        if (this.selectedFiles.length === 0) {
-            this.showStatus('画像を選択してください', 'error');
+        // Lambda エンドポイントのチェック
+        if (this.lambdaEndpoint === 'YOUR_LAMBDA_API_ENDPOINT') {
+            alert('Lambda API エンドポイントが設定されていません。\nupload.js の lambdaEndpoint を設定してください。');
+            return;
+        }
+
+        // GitHub トークンのチェック
+        if (!this.githubToken) {
+            alert('GitHub Personal Access Tokenを入力してください');
             return;
         }
 
         const uploadBtn = document.getElementById('uploadBtn');
         uploadBtn.disabled = true;
-        uploadBtn.innerHTML = '<span class="loading"></span>アップロード中...';
+        uploadBtn.innerHTML = 'アップロード中...';
 
         try {
-            // まずartworks.jsonを読み込む
-            const artworksData = await this.loadArtworksJson();
+            this.showStatus('📤 画像をS3にアップロード中...', 'info');
 
-            // 各ファイルをアップロード
-            for (const file of this.selectedFiles) {
-                await this.uploadSingleImage(file, artworksData);
+            const uploadedFiles = [];
+
+            // 各ファイルをS3にアップロード
+            for (let i = 0; i < this.selectedFiles.length; i++) {
+                const file = this.selectedFiles[i];
+                this.showStatus(`📤 ${i + 1}/${this.selectedFiles.length}: ${file.name} をアップロード中...`, 'info');
+
+                const uploadedFile = await this.uploadSingleImageToS3(file);
+                uploadedFiles.push(uploadedFile);
             }
 
-            // artworks.jsonを更新
-            await this.updateArtworksJson(artworksData);
+            this.showStatus('🔄 GitHub Actionsをトリガー中...', 'info');
 
-            this.showStatus(`✅ ${this.selectedFiles.length}枚の画像をアップロードしました！`, 'success');
+            // GitHub Actionsをトリガー
+            await this.triggerGitHubActions(uploadedFiles);
+
+            this.showStatus(`✅ ${this.selectedFiles.length}枚の画像をアップロードしました！\n\nGitHub Actionsが画像処理を行います。数分後に確認してください。`, 'success');
+            
+            // リセット
             this.selectedFiles = [];
             document.getElementById('previewSection').style.display = 'none';
             document.getElementById('fileInput').value = '';
@@ -208,11 +208,6 @@ class GitHubPhotoUploader {
 
         } catch (error) {
             console.error('Upload error:', error);
-            console.error('Error details:', {
-                name: error.name,
-                message: error.message,
-                stack: error.stack
-            });
             
             let errorMessage = `❌ アップロードエラー\n\n`;
             errorMessage += `エラー: ${error.message}\n\n`;
@@ -229,214 +224,114 @@ class GitHubPhotoUploader {
         }
     }
 
-    async uploadSingleImage(file, artworksData) {
+    async uploadSingleImageToS3(file) {
+        const useFileDate = document.getElementById('useFileDate').checked;
         const title = document.getElementById('title').value || '';
         const description = document.getElementById('description').value || '';
-        const useFileDate = document.getElementById('useFileDate').checked;
 
         // 日付を決定
         const dateToUse = useFileDate ? new Date(file.lastModified) : new Date();
         const timestamp = dateToUse.toISOString().slice(0, 10).replace(/-/g, '');
-        const fileName = file.name.replace(/\.[^/.]+$/, '');
+        const originalFileName = file.name.replace(/\.[^/.]+$/, '');
         const ext = file.name.split('.').pop().toLowerCase();
-        const id = `${timestamp}_${fileName}`;
+        const fileName = `${timestamp}_${originalFileName}.${ext}`;
 
-        // 画像をBase64に変換
-        const base64Image = await this.fileToBase64(file);
+        // 1. Lambda APIからPre-signed URLを取得
+        const presignedData = await this.getPresignedUrl(fileName, file.type);
 
-        // 画像ファイルをリポジトリにコミット
-        const year = dateToUse.getFullYear();
-        const month = String(dateToUse.getMonth() + 1).padStart(2, '0');
-        
-        // ディレクトリが存在するか確認（GitHub APIでは自動的に作成されないため）
-        // まず親ディレクトリの存在を確認
-        const imageDir = `docs/images/${year}/${month}`;
-        const imagePath = `${imageDir}/${id}.${ext}`;
-
-        // 既存ファイルのSHAを取得（存在しない場合はnull）
-        const existingSha = await this.getFileSha(imagePath);
-        
-        // 画像をコミット（既存ファイルがある場合はSHAを渡す）
-        await this.commitFile(imagePath, base64Image, `Add image: ${id}`, existingSha);
-
-        // メタデータを作成（簡易版 - 実際の画像処理はGitHub Actionsで行う）
-        const artwork = {
-            id,
-            title,
-            description,
-            date: dateToUse.toISOString().slice(0, 10),
-            year,
-            month: parseInt(month),
-            original: `images/${year}/${month}/${id}.${ext}`,
-            thumbnail: `images/${year}/${month}/${id}_thumb.jpg`, // GitHub Actionsで生成される
-            webp: `images/${year}/${month}/${id}.webp`, // GitHub Actionsで生成される
-            responsive: {},
-            dimensions: { width: 0, height: 0 }, // 後で更新
-            fileSize: file.size
-        };
-
-        artworksData.artworks.unshift(artwork);
-        artworksData.totalCount = artworksData.artworks.length;
-        artworksData.lastUpdated = new Date().toISOString();
-    }
-
-    async loadArtworksJson() {
-        try {
-            const response = await fetch('data/artworks.json');
-            if (response.ok) {
-                return await response.json();
-            }
-        } catch (error) {
-            console.warn('Could not load artworks.json:', error);
-        }
-        return { artworks: [], totalCount: 0, lastUpdated: null };
-    }
-
-    async updateArtworksJson(artworksData) {
-        const content = JSON.stringify(artworksData, null, 2);
-        const base64Content = btoa(unescape(encodeURIComponent(content)));
-        
-        // まず現在のファイルを取得（SHAが必要）
-        const currentSha = await this.getFileSha('docs/data/artworks.json');
-        
-        await this.commitFile('docs/data/artworks.json', base64Content, 'Update artworks.json', currentSha);
-    }
-
-    async getFileSha(path) {
-        try {
-            const response = await fetch(
-                `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/contents/${path}`,
-                {
-                    headers: {
-                        'Authorization': `token ${this.githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                }
-            );
-
-            if (response.ok) {
-                const data = await response.json();
-                return data.sha;
-            }
-        } catch (error) {
-            console.warn('Could not get file SHA:', error);
-        }
-        return null;
-    }
-
-    async commitFile(path, content, message, sha = null) {
-        if (!this.repoOwner || !this.repoName) {
-            throw new Error('リポジトリ情報が設定されていません');
-        }
-
-        const url = `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/contents/${path}`;
-        
-        // ブランチ名を取得（デフォルトはmain）
-        let branch = 'main';
-        try {
-            const repoResponse = await fetch(
-                `https://api.github.com/repos/${this.repoOwner}/${this.repoName}`,
-                {
-                    headers: {
-                        'Authorization': `token ${this.githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                }
-            );
-            if (repoResponse.ok) {
-                const repoData = await repoResponse.json();
-                branch = repoData.default_branch || 'main';
-            }
-        } catch (error) {
-            console.warn('Could not detect default branch, using main');
-        }
-        
-        const body = {
-            message: message,
-            content: content,
-            branch: branch
-        };
-
-        if (sha) {
-            body.sha = sha;
-        }
-
-        const response = await fetch(url, {
+        // 2. S3に直接アップロード
+        const response = await fetch(presignedData.uploadUrl, {
             method: 'PUT',
+            body: file,
             headers: {
-                'Authorization': `token ${this.githubToken}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
+                'Content-Type': file.type
+            }
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            const errorMessage = errorData.message || 'Failed to commit file';
-            console.error('GitHub API Error:', errorData);
-            throw new Error(errorMessage);
+            throw new Error(`S3アップロード失敗: ${response.status} ${response.statusText}`);
+        }
+
+        console.log('✅ S3アップロード完了:', presignedData.s3Key);
+
+        // アップロード情報を返す
+        return {
+            s3Key: presignedData.s3Key,
+            fileName: fileName,
+            title: title,
+            description: description,
+            fileSize: file.size,
+            date: dateToUse.toISOString().slice(0, 10)
+        };
+    }
+
+    async getPresignedUrl(fileName, fileType) {
+        const response = await fetch(this.lambdaEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fileName: fileName,
+                fileType: fileType
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Pre-signed URL取得失敗: ${response.status} ${errorText}`);
         }
 
         return await response.json();
     }
 
-    fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                // data:image/jpeg;base64, の部分を削除
-                const base64 = reader.result.split(',')[1];
-                resolve(base64);
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
+    async triggerGitHubActions(uploadedFiles) {
+        // repository_dispatch イベントをトリガー
+        const url = `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/dispatches`;
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `token ${this.githubToken}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                event_type: 'process_uploaded_images',
+                client_payload: {
+                    files: uploadedFiles
+                }
+            })
         });
-    }
 
-    showStatus(message, type) {
-        const statusDiv = document.getElementById('statusMessage');
-        statusDiv.className = `status-message ${type}`;
-        // 改行を<br>に変換して表示
-        statusDiv.innerHTML = message.replace(/\n/g, '<br>');
-        statusDiv.style.display = 'block';
-
-        if (type === 'success') {
-            setTimeout(() => {
-                statusDiv.style.display = 'none';
-            }, 5000);
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('GitHub API Error:', errorData);
+            throw new Error(`GitHub Actions トリガー失敗: ${response.status} ${errorData.message}`);
         }
+
+        console.log('✅ GitHub Actions triggered');
     }
 }
 
-// グローバル関数
+// トークン管理用のグローバル関数
 function saveToken() {
     const token = document.getElementById('githubToken').value.trim();
     if (token) {
-        if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
-            if (!confirm('トークンの形式が正しくない可能性があります。続行しますか？')) {
-                return;
-            }
-        }
         localStorage.setItem('github_token', token);
         uploader.githubToken = token;
-        uploader.updateUploadButton();
-        alert('✅ トークンを保存しました\n\n⚠️ セキュリティ注意:\n- このトークンはブラウザに保存されます\n- 同じブラウザを使う人は誰でもアップロードできます\n- 共有PCでは使用しないでください');
-    } else {
-        alert('トークンを入力してください');
+        alert('トークンを保存しました');
     }
 }
 
 function clearToken() {
-    if (confirm('保存されているトークンを削除しますか？')) {
+    if (confirm('保存されたトークンを削除しますか？')) {
         localStorage.removeItem('github_token');
         document.getElementById('githubToken').value = '';
         uploader.githubToken = null;
-        uploader.updateUploadButton();
         alert('トークンを削除しました');
     }
 }
 
-// インスタンスを作成
-const uploader = new GitHubPhotoUploader();
-
+// 初期化
+const uploader = new PhotoUploader();
