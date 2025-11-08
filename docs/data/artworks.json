@@ -1,6 +1,23 @@
 {
   "artworks": [
     {
+      "id": "20251108_IMG_5217",
+      "title": "",
+      "description": "",
+      "date": "2025-11-08",
+      "year": 2025,
+      "month": 11,
+      "original": "images/2025/11/20251108_IMG_5217.jpeg",
+      "thumbnail": "images/2025/11/20251108_IMG_5217_thumb.jpg",
+      "webp": "images/2025/11/20251108_IMG_5217.webp",
+      "responsive": {},
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSize": 4118023
+    },
+    {
       "id": "20251108_DSC03318",
       "title": "",
       "description": "",
@@ -14453,7 +14470,7 @@
       }
     }
   ],
-  "totalCount": 683,
-  "lastUpdated": "2025-11-08T04:26:42.777Z",
+  "totalCount": 684,
+  "lastUpdated": "2025-11-08T04:37:34.888Z",
   "lastUpdate": "2025-06-07"
 }
