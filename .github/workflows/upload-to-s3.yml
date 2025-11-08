@@ -14,12 +14,15 @@ on:
 jobs:
   upload-to-s3:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # リポジトリへの書き込み権限
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 2  # 前回のコミットも取得して差分を確認
+          token: ${{ secrets.GITHUB_TOKEN }}  # デフォルトのトークンを使用
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
