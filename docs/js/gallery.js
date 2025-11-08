@@ -16,7 +16,7 @@ class PixelGallery {
     async init() {
         await this.loadArtworks();
         this.setupEventListeners();
-        this.nextRandom();
+        this.handleInitialHash();
     }
 
     async loadArtworks() {
@@ -92,6 +92,11 @@ class PixelGallery {
                     this.nextRandom();
                 }
             }
+        });
+
+        // Hash change handler for permalinks
+        window.addEventListener('hashchange', () => {
+            this.handleHashChange();
         });
     }
 
@@ -318,6 +323,9 @@ class PixelGallery {
         this.modalArtworks = [...this.artworks].sort((a, b) => new Date(b.date) - new Date(a.date));
         this.currentModalIndex = this.modalArtworks.findIndex(art => art.id === artworkId);
 
+        // Update URL hash for permalink
+        window.history.pushState({}, '', `#${artworkId}`);
+        
         this.showModalArtwork();
         document.getElementById('artModal').style.display = 'flex';
     }
@@ -338,12 +346,19 @@ class PixelGallery {
 
     closeModal() {
         document.getElementById('artModal').style.display = 'none';
+        // Clear hash when closing modal
+        window.history.pushState({}, '', window.location.pathname);
     }
 
     prevModalArtwork() {
         this.currentModalIndex = this.currentModalIndex > 0 ? 
             this.currentModalIndex - 1 : 
             this.modalArtworks.length - 1;
+        
+        // Update URL hash
+        const artwork = this.modalArtworks[this.currentModalIndex];
+        window.history.pushState({}, '', `#${artwork.id}`);
+        
         this.showModalArtwork();
     }
 
@@ -351,6 +366,11 @@ class PixelGallery {
         this.currentModalIndex = this.currentModalIndex < this.modalArtworks.length - 1 ? 
             this.currentModalIndex + 1 : 
             0;
+        
+        // Update URL hash
+        const artwork = this.modalArtworks[this.currentModalIndex];
+        window.history.pushState({}, '', `#${artwork.id}`);
+        
         this.showModalArtwork();
     }
 
@@ -404,6 +424,42 @@ class PixelGallery {
             // normal view用のsizes（1列表示、最大幅1200px）
             return '(max-width: 768px) calc(100vw - 40px), min(1200px, calc(100vw - 40px))';
         }
+    }
+
+    // Permalink handling functions
+    handleInitialHash() {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            this.handleHashChange();
+        } else {
+            this.nextRandom();
+        }
+    }
+
+    handleHashChange() {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            const artwork = this.artworks.find(art => art.id === hash);
+            if (artwork) {
+                this.openModalFromPermalink(artwork.id);
+            }
+        } else {
+            // If hash is removed, close modal
+            if (document.getElementById('artModal').style.display === 'flex') {
+                document.getElementById('artModal').style.display = 'none';
+            }
+        }
+    }
+
+    openModalFromPermalink(artworkId) {
+        const artwork = this.artworks.find(art => art.id === artworkId);
+        if (!artwork) return;
+
+        this.modalArtworks = [...this.artworks].sort((a, b) => new Date(b.date) - new Date(a.date));
+        this.currentModalIndex = this.modalArtworks.findIndex(art => art.id === artworkId);
+
+        this.showModalArtwork();
+        document.getElementById('artModal').style.display = 'flex';
     }
 }
 

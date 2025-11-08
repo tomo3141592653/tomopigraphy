@@ -7,12 +7,13 @@
     "upload": "node scripts/upload.js",
     "batch-upload": "node scripts/batch-upload.js",
     "generate-responsive": "node scripts/generate-responsive.js",
-    "dev": "npx http-server docs -p 8000 -c-1",
+    "dev": "npx http-server docs -p 8080 -c-1",
     "build": "echo 'Build complete - static site ready'",
-        "deploy": "git add . && git commit -m 'Update gallery' && git push",
+    "deploy": "git add . && git commit -m 'Update gallery' && git push",
     "setup": "node scripts/setup.js",
     "setup-new": "node scripts/setup.js --bucket",
-    "clean": "node scripts/clean.js"
+    "clean": "node scripts/clean.js",
+    "upload-server": "node scripts/upload-server.js"
   },
   "keywords": [
     "pixel-art",
@@ -27,7 +28,9 @@
   "dependencies": {
     "aws-sdk": "^2.1400.0",
     "commander": "^9.0.0",
+    "express": "^4.18.2",
     "mime-types": "^2.1.35",
+    "multer": "^1.4.5-lts.1",
     "sharp": "^0.34.2",
     "xmlbuilder": "^15.1.1"
   },

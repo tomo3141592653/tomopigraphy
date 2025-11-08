@@ -9,8 +9,14 @@ A beautiful, modern photo gallery website with powerful upload management tools.
 ### 🎨 Gallery Features / ギャラリー機能
 - **Random Display**: Homepage shows random artwork with "next" button navigation
   - **ランダム表示**: ホームページでランダムな作品を「次へ」ボタンナビゲーションで表示
-- **Chronological Gallery**: Time-based thumbnail view with year organization
-  - **時系列ギャラリー**: 年別に整理された時系列サムネイル表示
+- **Latest Photos View**: Time-ordered browsing from newest to oldest (`?view=top`)
+  - **最新写真表示**: 最新から古い順での時系列ブラウジング (`?view=top`)
+- **Chronological Gallery**: Time-based thumbnail view with year organization (`?view=gallery`)
+  - **時系列ギャラリー**: 年別に整理された時系列サムネイル表示 (`?view=gallery`)
+- **URL-Based Navigation**: Direct links to specific views with browser history support
+  - **URLベースナビゲーション**: 特定ビューへの直接リンクとブラウザ履歴対応
+- **Drag & Drop Upload Tool**: Web-based upload interface with auto-commit
+  - **ドラッグ&ドロップアップロードツール**: 自動コミット機能付きWebベースアップロードインターフェース
 - **Dual View Modes**: Toggle between standard and compact thumbnail layouts
   - **2つの表示モード**: 標準とコンパクトサムネイルレイアウトの切り替え
 - **Interactive Modal**: Full-screen artwork viewer with keyboard navigation
@@ -36,7 +42,13 @@ A beautiful, modern photo gallery website with powerful upload management tools.
 
 ## 🎯 Live Demo / ライブデモ
 
-Visit the live gallery at: `https://tomo3141592653.github.io/tomopigraphy/`
+### Gallery Views / ギャラリービュー
+- **Home (Random)**: `https://tomo3141592653.github.io/tomopigraphy/`
+  - **ホーム（ランダム）**: ランダムな作品を表示
+- **Latest Photos**: `https://tomo3141592653.github.io/tomopigraphy/?view=top`
+  - **最新写真**: 最新から古い順で写真をブラウジング
+- **Gallery View**: `https://tomo3141592653.github.io/tomopigraphy/?view=gallery`
+  - **ギャラリービュー**: 年月別に整理されたサムネイル表示
 
 ライブギャラリーはこちら: `https://tomo3141592653.github.io/tomopigraphy/`
 
@@ -262,7 +274,9 @@ GitHub Pages上で直接写真をアップロードできます！
 - 大きな画像ファイル（100MB以上）はGitHubの制限によりアップロードできません
 - 推奨: 10MB以下の画像を使用してください
 
-### Single Image Upload / 単一画像アップロード（コマンドライン）
+### 💻 Command Line Upload / コマンドラインアップロード
+
+#### Single Image Upload / 単一画像アップロード
 ```bash
 # Basic upload / 基本アップロード
 npm run upload ./my-artwork.png
@@ -277,7 +291,7 @@ npm run upload ./my-artwork.png -- --title "夕暮れの街角" --description "�
 npm run upload ./my-artwork.png -- --use-file-date
 ```
 
-### Batch Upload / バッチアップロード
+#### Batch Upload / バッチアップロード
 ```bash
 # Upload entire folder / フォルダ全体をアップロード
 npm run batch-upload ./artwork-folder/
@@ -321,6 +335,21 @@ photo_site/
 ```
 
 ### Daily Workflow / 日常のワークフロー
+
+#### Option A: Web Upload (Recommended) / 方法A: Webアップロード（推奨）
+```bash
+# 1. Start upload server / 1. アップロードサーバーを起動
+npm run upload-server
+
+# 2. Drag & drop images at http://localhost:3000
+# 2. http://localhost:3000 で画像をドラッグ&ドロップ
+# (Auto-commits to GitHub) / (自動でGitHubにコミット)
+
+# 3. Check live site / 3. ライブサイトを確認
+# https://tomo3141592653.github.io/tomopigraphy/
+```
+
+#### Option B: Command Line / 方法B: コマンドライン
 ```bash
 # 1. Add new artwork / 1. 新しい作品を追加
 npm run upload ./new-art.jpg -- --title "New Creation"
@@ -346,6 +375,54 @@ Update `config/config.json` / `config/config.json` を更新:
   }
 }
 ```
+
+## 🆕 Recent Updates / 最新のアップデート
+
+### Version 2.0 - Enhanced Navigation & Upload Experience / バージョン2.0 - ナビゲーション＆アップロード体験の向上
+
+#### ✨ New Features / 新機能
+1. **URL-Based Navigation** / **URLベースナビゲーション**
+   - Direct links to gallery views via URL parameters
+   - URLパラメータによるギャラリービューへの直接リンク
+   - Browser history support for seamless navigation
+   - シームレスなナビゲーションのためのブラウザ履歴サポート
+
+2. **Latest Photos View** / **最新写真ビュー**
+   - Chronological browsing from newest to oldest photos
+   - 最新から古い順での時系列写真ブラウジング
+   - Dedicated navigation controls (Previous/Next/Latest)
+   - 専用ナビゲーションコントロール（前へ/次へ/最新）
+   - Keyboard shortcuts support (←/→ arrow keys)
+   - キーボードショートカット対応（←/→矢印キー）
+
+3. **Web Upload Tool** / **Webアップロードツール**
+   - Drag & drop interface for easy image uploads
+   - 簡単な画像アップロードのためのドラッグ&ドロップインターフェース
+   - Multi-file batch upload support
+   - 複数ファイルのバッチアップロード対応
+   - Real-time upload progress tracking
+   - リアルタイムアップロード進行状況追跡
+   - Automatic git commit and push to GitHub
+   - GitHubへの自動gitコミット・プッシュ
+   - Cyberpunk-themed UI matching gallery design
+   - ギャラリーデザインに合わせたサイバーパンクテーマUI
+
+#### 🔗 Navigation URLs / ナビゲーションURL
+```
+Home (Random):     https://tomo3141592653.github.io/tomopigraphy/
+Latest Photos:     https://tomo3141592653.github.io/tomopigraphy/?view=top
+Gallery View:      https://tomo3141592653.github.io/tomopigraphy/?view=gallery
+```
+
+#### 🛠️ Technical Improvements / 技術的改善
+- Enhanced JavaScript routing system for single-page application behavior
+- シングルページアプリケーション動作のための強化されたJavaScriptルーティングシステム
+- Express.js server for web upload functionality
+- Webアップロード機能のためのExpress.jsサーバー
+- Multer integration for secure file handling
+- 安全なファイル処理のためのMulter統合
+- Improved responsive image handling across all views
+- 全ビューでの改善されたレスポンシブ画像処理
 
 ## 🔧 Advanced Features / 高度な機能
 
