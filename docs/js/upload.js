@@ -251,7 +251,7 @@ class GitHubPhotoUploader {
         // ディレクトリが存在するか確認（GitHub APIでは自動的に作成されないため）
         // まず親ディレクトリの存在を確認
         const imageDir = `docs/images/${year}/${month}`;
-        const imagePath = `${imageDir}/${id}${ext}`;
+        const imagePath = `${imageDir}/${id}.${ext}`;
 
         // 画像をコミット
         await this.commitFile(imagePath, base64Image, `Add image: ${id}`);
@@ -264,7 +264,7 @@ class GitHubPhotoUploader {
             date: dateToUse.toISOString().slice(0, 10),
             year,
             month: parseInt(month),
-            original: `images/${year}/${month}/${id}${ext}`,
+            original: `images/${year}/${month}/${id}.${ext}`,
             thumbnail: `images/${year}/${month}/${id}_thumb.jpg`, // GitHub Actionsで生成される
             webp: `images/${year}/${month}/${id}.webp`, // GitHub Actionsで生成される
             responsive: {},
