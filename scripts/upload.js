@@ -8,10 +8,23 @@ const { program } = require('commander');
 const mime = require('mime-types');
 
 // AWS SDKの設定
-AWS.config.update({
-    region: 'ap-northeast-1',
-    credentials: new AWS.SharedIniFileCredentials()
-});
+// GitHub Actions環境では環境変数から、ローカルでは~/.aws/credentialsから読み込む
+if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+    // GitHub Actions環境
+    AWS.config.update({
+        region: process.env.AWS_REGION || 'ap-northeast-1',
+        credentials: new AWS.Credentials(
+            process.env.AWS_ACCESS_KEY_ID,
+            process.env.AWS_SECRET_ACCESS_KEY
+        )
+    });
+} else {
+    // ローカル環境
+    AWS.config.update({
+        region: 'ap-northeast-1',
+        credentials: new AWS.SharedIniFileCredentials()
+    });
+}
 
 // Load configuration
 const configPath = path.join(__dirname, '../config/config.json');

@@ -245,32 +245,54 @@ node scripts/setup.js
 
 ### 🌐 Web-Based Uploader / Webアップローダー（推奨）
 
-GitHub Pages上で直接写真をアップロードできます！
+外出先からブラウザで写真をアップロードできます！GitHub経由で自動的にS3に転送されます。
 
 **セットアップ手順 / Setup Steps:**
 
-1. **GitHub Personal Access Token (PAT) を作成**
-   - GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
-   - 「Generate new token」をクリック
-   - スコープで `repo` にチェック
-   - トークンをコピー（一度しか表示されません）
+#### 1. GitHub Secretsの設定（初回のみ）
 
-2. **アップロードページにアクセス**
+1. GitHubリポジトリページを開く
+2. **Settings** → **Secrets and variables** → **Actions**
+3. 以下の3つのSecretを追加：
+   - `AWS_ACCESS_KEY_ID`: AWSアクセスキー
+   - `AWS_SECRET_ACCESS_KEY`: AWSシークレットキー
+   - `AWS_S3_BUCKET_NAME`: S3バケット名（例: `your-bucket-name`）
+
+#### 2. GitHub Personal Access Token (PAT) を作成
+
+1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. 「Generate new token」をクリック
+3. スコープで `repo` にチェック
+4. トークンをコピー（一度しか表示されません）
+
+📖 **詳しい手順**: [PAT_SETUP.md](docs/PAT_SETUP.md) を参照
+
+#### 3. 写真をアップロード
+
+1. **アップロードページにアクセス**
    - サイトの `/upload.html` にアクセス
-   - または、ナビゲーションバーの「Upload」リンクをクリック
 
-3. **トークンを設定**
+2. **トークンを設定**（初回のみ）
    - ページ上部の認証セクションにトークンを入力
    - 「トークンを保存」ボタンをクリック
 
-4. **写真をアップロード**
+3. **写真をアップロード**
    - 画像をドラッグ&ドロップまたはクリックして選択
    - タイトルと説明を入力（オプション）
    - 「アップロード開始」ボタンをクリック
 
+4. **自動処理（バックグラウンド）**
+   - ✅ GitHubにコミット
+   - ✅ GitHub Actionsが自動実行
+   - ✅ S3にアップロード（サムネイル・WebP・レスポンシブ画像を自動生成）
+   - ✅ GitHubから元画像を削除（容量節約）
+   - ✅ artworks.jsonを自動更新
+
+**処理時間**: 約1〜3分（GitHub Actions実行時間）
+
 **注意事項 / Notes:**
-- 画像はGitHubリポジトリに直接コミットされます
-- GitHub Actionsが自動的にサムネイルとWebP形式を生成します
+- 画像は一時的にGitHubリポジトリにコミットされ、処理後に自動削除されます
+- 最終的にS3に保存されます（CDN配信、大容量対応）
 - 大きな画像ファイル（100MB以上）はGitHubの制限によりアップロードできません
 - 推奨: 10MB以下の画像を使用してください
 
@@ -278,13 +300,12 @@ GitHub Pages上で直接写真をアップロードできます！
 - ⚠️ **トークンはブラウザのlocalStorageに保存されます**
   - 同じブラウザを使う人は誰でもアップロードできます
   - 共有PCでは使用しないでください
+- ⚠️ **AWS認証情報はGitHub Secretsで安全に管理**
+  - ブラウザには保存されません
+  - GitHub Actionsのみがアクセス可能
 - ⚠️ **トークンに有効期限を設定することを推奨します**
   - GitHubでトークン作成時に有効期限を設定できます
   - 定期的にトークンを更新してください
-- ⚠️ **不要になったトークンは削除してください**
-  - GitHub → Settings → Developer settings → Personal access tokens
-  - 削除したいトークンの横の「Delete」をクリック
-- 📖 **詳しいPAT作成手順**: [PAT_SETUP.md](docs/PAT_SETUP.md) を参照してください
 
 ### 💻 Command Line Upload / コマンドラインアップロード
 

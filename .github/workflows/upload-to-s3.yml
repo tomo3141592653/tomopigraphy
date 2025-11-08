@@ -1,0 +1,106 @@
+name: Upload Images to S3
+
+on:
+  push:
+    paths:
+      - 'docs/images/**/*.jpg'
+      - 'docs/images/**/*.jpeg'
+      - 'docs/images/**/*.png'
+      - 'docs/images/**/*.gif'
+      - 'docs/images/**/*.webp'
+    branches:
+      - main
+
+jobs:
+  upload-to-s3:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # 前回のコミットも取得して差分を確認
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Install Sharp dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+
+      - name: Find new images
+        id: find_images
+        run: |
+          # 新しく追加された画像ファイルを検出
+          git diff --name-only --diff-filter=A HEAD~1 HEAD | grep -E '^docs/images/.*\.(jpg|jpeg|png|gif|webp)$' > new_images.txt || true
+          
+          if [ -s new_images.txt ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "Found new images:"
+            cat new_images.txt
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "No new images found"
+          fi
+
+      - name: Upload images to S3
+        if: steps.find_images.outputs.found == 'true'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-northeast-1
+        run: |
+          while IFS= read -r image_path; do
+            if [ -f "$image_path" ]; then
+              echo "Processing: $image_path"
+              
+              # ファイル名からタイトルを抽出（オプション）
+              filename=$(basename "$image_path")
+              filename_no_ext="${filename%.*}"
+              
+              # アップロード実行
+              npm run upload "$image_path" -- --use-file-date
+              
+              if [ $? -eq 0 ]; then
+                echo "✅ Successfully uploaded: $image_path"
+                # GitHubリポジトリから元の画像を削除
+                rm "$image_path"
+                echo "🗑️  Removed from GitHub: $image_path"
+              else
+                echo "❌ Failed to upload: $image_path"
+                exit 1
+              fi
+            fi
+          done < new_images.txt
+
+      - name: Commit and push changes
+        if: steps.find_images.outputs.found == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # 削除されたファイルと更新されたartworks.jsonをステージング
+          git add -A
+          
+          # 変更があればコミット
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-upload to S3 and update artworks.json [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
