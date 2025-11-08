@@ -71,6 +71,7 @@ class GitHubPhotoUploader {
     setupEventListeners() {
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
 
         // クリックでファイル選択
         uploadArea.addEventListener('click', () => {
@@ -96,6 +97,11 @@ class GitHubPhotoUploader {
             e.preventDefault();
             uploadArea.classList.remove('dragover');
             this.handleFiles(e.dataTransfer.files);
+        });
+
+        // アップロードボタン
+        uploadBtn.addEventListener('click', () => {
+            this.uploadImages();
         });
     }
 
@@ -202,7 +208,21 @@ class GitHubPhotoUploader {
 
         } catch (error) {
             console.error('Upload error:', error);
-            this.showStatus(`❌ エラー: ${error.message}`, 'error');
+            console.error('Error details:', {
+                name: error.name,
+                message: error.message,
+                stack: error.stack
+            });
+            
+            let errorMessage = `❌ アップロードエラー\n\n`;
+            errorMessage += `エラー: ${error.message}\n\n`;
+            errorMessage += `詳細情報:\n`;
+            errorMessage += `- リポジトリ: ${this.repoOwner}/${this.repoName}\n`;
+            errorMessage += `- トークン設定: ${this.githubToken ? '設定済み' : '未設定'}\n`;
+            errorMessage += `- ファイル数: ${this.selectedFiles.length}\n\n`;
+            errorMessage += `コンソールログを確認してください（F12キー）`;
+            
+            this.showStatus(errorMessage, 'error');
         } finally {
             uploadBtn.disabled = false;
             uploadBtn.innerHTML = 'アップロード開始';
@@ -374,7 +394,8 @@ class GitHubPhotoUploader {
     showStatus(message, type) {
         const statusDiv = document.getElementById('statusMessage');
         statusDiv.className = `status-message ${type}`;
-        statusDiv.textContent = message;
+        // 改行を<br>に変換して表示
+        statusDiv.innerHTML = message.replace(/\n/g, '<br>');
         statusDiv.style.display = 'block';
 
         if (type === 'success') {
