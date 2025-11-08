@@ -18,6 +18,23 @@
       "fileSize": 14785803
     },
     {
+      "id": "20251108_DSC03318",
+      "title": "",
+      "description": "",
+      "date": "2025-11-08",
+      "year": 2025,
+      "month": 11,
+      "original": "images/2025/11/20251108_DSC03318.jpg",
+      "thumbnail": "images/2025/11/20251108_DSC03318_thumb.jpg",
+      "webp": "images/2025/11/20251108_DSC03318.webp",
+      "responsive": {},
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSize": 14785803
+    },
+    {
       "id": "20250626_DSC00499",
       "title": "",
       "description": "",
@@ -14436,7 +14453,7 @@
       }
     }
   ],
-  "totalCount": 682,
-  "lastUpdated": "2025-11-08T04:09:42.414Z",
+  "totalCount": 683,
+  "lastUpdated": "2025-11-08T04:26:42.777Z",
   "lastUpdate": "2025-06-07"
 }
