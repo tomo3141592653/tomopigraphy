@@ -21,12 +21,16 @@ A beautiful, modern photo gallery website with powerful upload management tools.
 ### 🚀 Technical Features / 技術的機能
 - **S3 Integration**: Seamless cloud storage with AWS S3
   - **S3統合**: AWS S3とのシームレスなクラウドストレージ
+- **Web-Based Uploader**: Upload photos directly from browser using GitHub API
+  - **Webアップローダー**: GitHub APIを使用してブラウザから直接写真をアップロード
 - **Automatic Optimization**: Generates thumbnails and WebP formats
   - **自動最適化**: サムネイルとWebP形式の自動生成
 - **Command-Line Tools**: Simple upload scripts for batch operations
   - **コマンドラインツール**: バッチ操作用のシンプルなアップロードスクリプト
 - **GitHub Pages Ready**: Static site deployment
   - **GitHub Pages対応**: 静的サイトデプロイメント
+- **GitHub Actions**: Automated image processing workflow
+  - **GitHub Actions**: 自動画像処理ワークフロー
 - **Modern UI**: Cyberpunk-inspired design with pixel animations
   - **モダンUI**: ピクセルアニメーション付きサイバーパンク風デザイン
 
@@ -227,7 +231,38 @@ node scripts/setup.js
 
 ## 📸 Upload Images / 画像のアップロード
 
-### Single Image Upload / 単一画像アップロード
+### 🌐 Web-Based Uploader / Webアップローダー（推奨）
+
+GitHub Pages上で直接写真をアップロードできます！
+
+**セットアップ手順 / Setup Steps:**
+
+1. **GitHub Personal Access Token (PAT) を作成**
+   - GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - 「Generate new token」をクリック
+   - スコープで `repo` にチェック
+   - トークンをコピー（一度しか表示されません）
+
+2. **アップロードページにアクセス**
+   - サイトの `/upload.html` にアクセス
+   - または、ナビゲーションバーの「Upload」リンクをクリック
+
+3. **トークンを設定**
+   - ページ上部の認証セクションにトークンを入力
+   - 「トークンを保存」ボタンをクリック
+
+4. **写真をアップロード**
+   - 画像をドラッグ&ドロップまたはクリックして選択
+   - タイトルと説明を入力（オプション）
+   - 「アップロード開始」ボタンをクリック
+
+**注意事項 / Notes:**
+- 画像はGitHubリポジトリに直接コミットされます
+- GitHub Actionsが自動的にサムネイルとWebP形式を生成します
+- 大きな画像ファイル（100MB以上）はGitHubの制限によりアップロードできません
+- 推奨: 10MB以下の画像を使用してください
+
+### Single Image Upload / 単一画像アップロード（コマンドライン）
 ```bash
 # Basic upload / 基本アップロード
 npm run upload ./my-artwork.png
@@ -266,14 +301,20 @@ npm run deploy
 photo_site/
 ├── docs/                    # Website files (GitHub Pages) / ウェブサイトファイル（GitHub Pages）
 │   ├── index.html          # Main gallery page / メインギャラリーページ
+│   ├── upload.html          # Web uploader page / Webアップローダーページ
 │   ├── js/
-│   │   └── gallery.js      # Gallery functionality / ギャラリー機能
+│   │   ├── gallery.js      # Gallery functionality / ギャラリー機能
+│   │   └── upload.js       # Web uploader functionality / Webアップローダー機能
 │   └── data/
 │       └── artworks.json   # Artwork metadata / 作品メタデータ
 ├── scripts/                # Upload tools / アップロードツール
 │   ├── upload.js          # Single image uploader / 単一画像アップローダー
 │   ├── batch-upload.js    # Batch uploader / バッチアップローダー
+│   ├── process-uploaded-images.js  # GitHub Actions用画像処理 / Image processor for GitHub Actions
 │   └── setup.js           # Initial setup / 初期セットアップ
+├── .github/
+│   └── workflows/
+│       └── process-images.yml  # GitHub Actions workflow / GitHub Actionsワークフロー
 ├── config/
 │   └── config.json        # Configuration / 設定
 └── package.json           # Dependencies and scripts / 依存関係とスクリプト
