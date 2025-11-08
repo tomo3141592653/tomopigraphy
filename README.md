@@ -274,6 +274,18 @@ GitHub Pages上で直接写真をアップロードできます！
 - 大きな画像ファイル（100MB以上）はGitHubの制限によりアップロードできません
 - 推奨: 10MB以下の画像を使用してください
 
+**🔒 セキュリティに関する重要な注意 / Important Security Notes:**
+- ⚠️ **トークンはブラウザのlocalStorageに保存されます**
+  - 同じブラウザを使う人は誰でもアップロードできます
+  - 共有PCでは使用しないでください
+- ⚠️ **トークンに有効期限を設定することを推奨します**
+  - GitHubでトークン作成時に有効期限を設定できます
+  - 定期的にトークンを更新してください
+- ⚠️ **不要になったトークンは削除してください**
+  - GitHub → Settings → Developer settings → Personal access tokens
+  - 削除したいトークンの横の「Delete」をクリック
+- 📖 **詳しいPAT作成手順**: [PAT_SETUP.md](docs/PAT_SETUP.md) を参照してください
+
 ### 💻 Command Line Upload / コマンドラインアップロード
 
 #### Single Image Upload / 単一画像アップロード

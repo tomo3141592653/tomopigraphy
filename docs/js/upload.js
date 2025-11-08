@@ -387,14 +387,29 @@ class GitHubPhotoUploader {
 
 // グローバル関数
 function saveToken() {
-    const token = document.getElementById('githubToken').value;
+    const token = document.getElementById('githubToken').value.trim();
     if (token) {
+        if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+            if (!confirm('トークンの形式が正しくない可能性があります。続行しますか？')) {
+                return;
+            }
+        }
         localStorage.setItem('github_token', token);
         uploader.githubToken = token;
         uploader.updateUploadButton();
-        alert('トークンを保存しました');
+        alert('✅ トークンを保存しました\n\n⚠️ セキュリティ注意:\n- このトークンはブラウザに保存されます\n- 同じブラウザを使う人は誰でもアップロードできます\n- 共有PCでは使用しないでください');
     } else {
         alert('トークンを入力してください');
+    }
+}
+
+function clearToken() {
+    if (confirm('保存されているトークンを削除しますか？')) {
+        localStorage.removeItem('github_token');
+        document.getElementById('githubToken').value = '';
+        uploader.githubToken = null;
+        uploader.updateUploadButton();
+        alert('トークンを削除しました');
     }
 }
 
