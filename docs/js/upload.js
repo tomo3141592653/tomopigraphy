@@ -253,8 +253,11 @@ class GitHubPhotoUploader {
         const imageDir = `docs/images/${year}/${month}`;
         const imagePath = `${imageDir}/${id}.${ext}`;
 
-        // 画像をコミット
-        await this.commitFile(imagePath, base64Image, `Add image: ${id}`);
+        // 既存ファイルのSHAを取得（存在しない場合はnull）
+        const existingSha = await this.getFileSha(imagePath);
+        
+        // 画像をコミット（既存ファイルがある場合はSHAを渡す）
+        await this.commitFile(imagePath, base64Image, `Add image: ${id}`, existingSha);
 
         // メタデータを作成（簡易版 - 実際の画像処理はGitHub Actionsで行う）
         const artwork = {
