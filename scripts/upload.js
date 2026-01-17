@@ -60,9 +60,15 @@ class ArtworkUploader {
             // Use file date or upload date based on option
             const dateToUse = useFileDate ? fileDate : uploadDate;
             const timestamp = dateToUse.toISOString().slice(0, 10).replace(/-/g, '');
-            const fileName = path.basename(imagePath, path.extname(imagePath));
+            const rawFileName = path.basename(imagePath, path.extname(imagePath));
+            // スペース、括弧、その他特殊文字をアンダースコアに置換（URL安全なファイル名に）
+            const fileName = rawFileName.replace(/[\s()[\]{}'"<>|&;$#!?*]+/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
             const ext = path.extname(imagePath);
             const id = `${timestamp}_${fileName}`;
+
+            if (rawFileName !== fileName) {
+                console.log(`⚠️  ファイル名を正規化: "${rawFileName}" → "${fileName}"`);
+            }
             
             // Read and process image
             const imageBuffer = fs.readFileSync(imagePath);
