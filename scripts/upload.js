@@ -72,7 +72,7 @@ class ArtworkUploader {
             
             // Read and process image
             const imageBuffer = fs.readFileSync(imagePath);
-            const image = sharp(imageBuffer);
+            const image = sharp(imageBuffer).rotate(); // EXIF回転を自動適用
             const metadata = await image.metadata();
             
             console.log(`📐 画像サイズ: ${metadata.width}x${metadata.height}`);
