@@ -6,6 +6,7 @@ const AWS = require('aws-sdk');
 const sharp = require('sharp');
 const { program } = require('commander');
 const mime = require('mime-types');
+const heicConvert = require('heic-convert');
 
 // AWS SDKの設定
 // GitHub Actions環境では環境変数から、ローカルでは~/.aws/credentialsから読み込む
@@ -69,9 +70,21 @@ class ArtworkUploader {
             if (rawFileName !== fileName) {
                 console.log(`⚠️  ファイル名を正規化: "${rawFileName}" → "${fileName}"`);
             }
-            
+
             // Read and process image
-            const imageBuffer = fs.readFileSync(imagePath);
+            let imageBuffer = fs.readFileSync(imagePath);
+
+            // Convert HEIC/HEIF to JPEG
+            if (ext.toLowerCase() === '.heic' || ext.toLowerCase() === '.heif') {
+                console.log(`🔄 HEIC/HEIFをJPEGに変換中...`);
+                imageBuffer = await heicConvert({
+                    buffer: imageBuffer,
+                    format: 'JPEG',
+                    quality: 0.95
+                });
+                console.log(`✅ HEIC変換完了`);
+            }
+
             const image = sharp(imageBuffer).rotate(); // EXIF回転を自動適用
             const metadata = await image.metadata();
             
@@ -81,24 +94,29 @@ class ArtworkUploader {
             const year = dateToUse.getFullYear();
             const month = String(dateToUse.getMonth() + 1).padStart(2, '0');
             const basePath = `${year}/${month}`;
-            
+
+            // HEIC/HEIFはJPEGとして保存（ブラウザ互換性のため）
+            const isHeic = ext.toLowerCase() === '.heic' || ext.toLowerCase() === '.heif';
+            const originalExt = isHeic ? '.jpg' : ext;
+            const originalMime = isHeic ? 'image/jpeg' : (mime.lookup(ext) || 'application/octet-stream');
+
             // レスポンシブ画像のサイズ定義
             const responsiveSizes = [640, 768, 1024, 1280, 1536, 1920, 2560];
-            
+
             const paths = {
-                original: `originals/${basePath}/${id}${ext}`,
+                original: `originals/${basePath}/${id}${originalExt}`,
                 thumbnail: `thumbnails/${basePath}/${id}_thumb.jpg`,
                 webp: `webp/${basePath}/${id}.webp`,
                 responsive: {}
             };
-            
+
             // レスポンシブ画像のパス生成
             responsiveSizes.forEach(size => {
                 paths.responsive[size] = `responsive/${basePath}/${id}_${size}w.jpg`;
             });
-            
+
             // Upload original image
-            await this.uploadToS3(imageBuffer, paths.original, mime.lookup(ext) || 'application/octet-stream');
+            await this.uploadToS3(imageBuffer, paths.original, originalMime);
             console.log(`✅ オリジナル画像アップロード完了`);
             
             // Generate and upload thumbnail
