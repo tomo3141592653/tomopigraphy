@@ -1,6 +1,27 @@
 {
   "artworks": [
     {
+      "id": "20260125_1c3f3316aa33333f",
+      "title": "DSC05960",
+      "description": "",
+      "date": "2026-01-25",
+      "year": 2026,
+      "month": 1,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/01/20260125_1c3f3316aa33333f.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/01/20260125_1c3f3316aa33333f_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/01/20260125_1c3f3316aa33333f.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/01/20260125_1c3f3316aa33333f_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/01/20260125_1c3f3316aa33333f_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/01/20260125_1c3f3316aa33333f_1024w.jpg"
+      },
+      "dimensions": {
+        "width": 1069,
+        "height": 1600
+      },
+      "fileSize": 258840
+    },
+    {
       "id": "20260125_9afd84c46132accf",
       "title": "DSC09345",
       "description": "",
@@ -14668,6 +14689,6 @@
       }
     }
   ],
-  "totalCount": 692,
-  "lastUpdated": "2026-01-25T12:01:41.029Z"
+  "totalCount": 693,
+  "lastUpdated": "2026-01-25T12:02:52.137Z"
 }
