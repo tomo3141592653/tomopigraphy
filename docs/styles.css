@@ -237,6 +237,17 @@ body {
     transform: scale(1.1);
 }
 
+.top-counter {
+    color: #00ff88;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    padding: 5px 15px;
+    background: rgba(0, 255, 136, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    white-space: nowrap;
+}
+
 .control-btn:disabled {
     background: rgba(102, 102, 102, 0.2);
     border-color: rgba(102, 102, 102, 0.5);

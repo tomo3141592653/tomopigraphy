@@ -16,7 +16,48 @@ class PixelGallery {
     async init() {
         await this.loadArtworks();
         this.setupEventListeners();
-        this.handleInitialHash();
+        this.handleInitialView();
+    }
+
+    // Parse URL query parameters
+    getViewFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get('view');
+        // Map URL params to internal view names
+        if (view === 'top') return 'top';
+        if (view === 'gallery') return 'gallery';
+        return 'random'; // default
+    }
+
+    // Update URL when view changes
+    updateURL(view) {
+        const url = new URL(window.location);
+        if (view === 'random') {
+            url.searchParams.delete('view');
+        } else {
+            url.searchParams.set('view', view);
+        }
+        // Clear hash when switching views
+        url.hash = '';
+        window.history.pushState({view: view}, '', url);
+    }
+
+    // Handle initial view based on URL
+    handleInitialView() {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            // If there's a hash, open that artwork in modal
+            this.handleHashChange();
+            return;
+        }
+
+        const view = this.getViewFromURL();
+        this.switchView(view, false); // Don't update URL on initial load
+
+        // For random view, show first random
+        if (view === 'random') {
+            this.nextRandom();
+        }
     }
 
     async loadArtworks() {
@@ -55,11 +96,26 @@ class PixelGallery {
             this.nextRandom();
         });
 
+        // Top view controls
+        const topPrevBtn = document.getElementById('topPrevBtn');
+        const topNextBtn = document.getElementById('topNextBtn');
+        const topLatestBtn = document.getElementById('topLatestBtn');
+
+        if (topPrevBtn) {
+            topPrevBtn.addEventListener('click', () => this.topPrev());
+        }
+        if (topNextBtn) {
+            topNextBtn.addEventListener('click', () => this.topNext());
+        }
+        if (topLatestBtn) {
+            topLatestBtn.addEventListener('click', () => this.topLatest());
+        }
+
         // Gallery controls
         document.getElementById('normalView').addEventListener('click', () => {
             this.toggleView(false);
         });
-        
+
         document.getElementById('compactView').addEventListener('click', () => {
             this.toggleView(true);
         });
@@ -91,12 +147,31 @@ class PixelGallery {
                     e.preventDefault();
                     this.nextRandom();
                 }
+            } else if (this.currentView === 'top') {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    this.topPrev();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    this.topNext();
+                }
             }
         });
 
         // Hash change handler for permalinks
         window.addEventListener('hashchange', () => {
             this.handleHashChange();
+        });
+
+        // Browser back/forward navigation
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.view) {
+                this.switchView(e.state.view, false);
+            } else {
+                // Check URL for view parameter
+                const view = this.getViewFromURL();
+                this.switchView(view, false);
+            }
         });
     }
 
@@ -272,9 +347,9 @@ class PixelGallery {
     }
 
     // View switching
-    switchView(view) {
+    switchView(view, updateUrl = true) {
         this.currentView = view;
-        
+
         // Update navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
@@ -282,16 +357,102 @@ class PixelGallery {
                 link.classList.add('active');
             }
         });
-        
-        // Show/hide sections
+
+        // Update URL if requested
+        if (updateUrl) {
+            this.updateURL(view);
+        }
+
+        // Show/hide sections based on view
+        const randomSection = document.getElementById('randomSection');
+        const gallerySection = document.getElementById('gallerySection');
+        const topSection = document.getElementById('topSection');
+
+        // Hide all sections first
+        randomSection.classList.add('hidden');
+        gallerySection.classList.remove('active');
+        if (topSection) topSection.classList.add('hidden');
+
         if (view === 'random') {
-            document.getElementById('randomSection').classList.remove('hidden');
-            document.getElementById('gallerySection').classList.remove('active');
-        } else {
-            document.getElementById('randomSection').classList.add('hidden');
-            document.getElementById('gallerySection').classList.add('active');
+            randomSection.classList.remove('hidden');
+        } else if (view === 'top') {
+            if (topSection) {
+                topSection.classList.remove('hidden');
+                this.showTopView();
+            } else {
+                // Fallback: use random section for top view
+                randomSection.classList.remove('hidden');
+                this.currentNewestIndex = 0;
+                this.showNewest();
+            }
+        } else if (view === 'gallery') {
+            gallerySection.classList.add('active');
             this.showGallery();
         }
+    }
+
+    // Top view (newest photos) display
+    showTopView() {
+        if (this.sortedArtworks.length === 0) {
+            return;
+        }
+
+        const topSection = document.getElementById('topSection');
+        if (!topSection) return;
+
+        const topImage = document.getElementById('topImage');
+        const topTitle = document.getElementById('topTitle');
+        const topMeta = document.getElementById('topMeta');
+        const topCounter = document.getElementById('topCounter');
+        const loadingOverlay = topSection.querySelector('.loading-overlay') || document.getElementById('loadingOverlay');
+
+        const artwork = this.sortedArtworks[this.currentNewestIndex];
+        if (!artwork) return;
+
+        if (loadingOverlay) loadingOverlay.style.display = 'flex';
+
+        const img = new Image();
+        img.onload = () => {
+            topImage.src = artwork.original;
+            topTitle.textContent = artwork.title || '';
+            topMeta.textContent = this.formatDate(artwork.date);
+            if (topCounter) {
+                topCounter.textContent = `${this.currentNewestIndex + 1} / ${this.sortedArtworks.length}`;
+            }
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+        };
+        img.onerror = () => {
+            topImage.src = artwork.thumbnail || artwork.original;
+            topTitle.textContent = artwork.title || '';
+            topMeta.textContent = this.formatDate(artwork.date);
+            if (topCounter) {
+                topCounter.textContent = `${this.currentNewestIndex + 1} / ${this.sortedArtworks.length}`;
+            }
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+        };
+        img.src = artwork.original;
+    }
+
+    // Navigate to previous photo in top view
+    topPrev() {
+        if (this.currentNewestIndex > 0) {
+            this.currentNewestIndex--;
+            this.showTopView();
+        }
+    }
+
+    // Navigate to next photo in top view
+    topNext() {
+        if (this.currentNewestIndex < this.sortedArtworks.length - 1) {
+            this.currentNewestIndex++;
+            this.showTopView();
+        }
+    }
+
+    // Go to latest photo in top view
+    topLatest() {
+        this.currentNewestIndex = 0;
+        this.showTopView();
     }
 
     toggleView(compact) {
@@ -427,15 +588,6 @@ class PixelGallery {
     }
 
     // Permalink handling functions
-    handleInitialHash() {
-        const hash = window.location.hash.substring(1);
-        if (hash) {
-            this.handleHashChange();
-        } else {
-            this.nextRandom();
-        }
-    }
-
     handleHashChange() {
         const hash = window.location.hash.substring(1);
         if (hash) {

@@ -14,7 +14,8 @@
             </a>
             <nav class="nav-links">
                 <a href="#" class="nav-link active" data-view="random">Home</a>
-                <a href="#" class="nav-link" data-view="gallery">Gallery</a>
+                <a href="?view=top" class="nav-link" data-view="top">Top</a>
+                <a href="?view=gallery" class="nav-link" data-view="gallery">Gallery</a>
             </nav>
         </div>
     </header>
@@ -39,6 +40,31 @@
                     <div class="random-controls">
                         <button class="control-btn" id="newestBtn" title="最新の写真">⤵</button>
                         <button class="control-btn" id="randomBtn" title="ランダム表示">⇝</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 最新写真セクション (Top) -->
+        <section class="random-section hidden" id="topSection">
+            <div class="random-display">
+                <div class="random-image-container">
+                    <img class="random-image" id="topImage" src="">
+                    <div class="loading-overlay" id="topLoadingOverlay">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+
+                <div class="random-info">
+                    <div class="random-info-left">
+                        <div class="random-title" id="topTitle">loading...</div>
+                        <div class="random-meta" id="topMeta"></div>
+                    </div>
+                    <div class="top-counter" id="topCounter">1 / 100</div>
+                    <div class="random-controls">
+                        <button class="control-btn" id="topPrevBtn" title="Previous">←</button>
+                        <button class="control-btn" id="topNextBtn" title="Next">→</button>
+                        <button class="control-btn" id="topLatestBtn" title="Latest">⤒</button>
                     </div>
                 </div>
             </div>
