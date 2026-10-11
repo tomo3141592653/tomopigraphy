@@ -1,29 +1,6 @@
 {
   "artworks": [
     {
-      "id": "20261011_ayumu_upload_test",
-      "title": "投稿テスト（すぐ消す）",
-      "description": "",
-      "date": "2026-10-11",
-      "year": 2026,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261011_ayumu_upload_test.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261011_ayumu_upload_test_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261011_ayumu_upload_test.webp",
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_640w.jpg",
-        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_768w.jpg",
-        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_1024w.jpg",
-        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_1280w.jpg",
-        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_1536w.jpg"
-      },
-      "dimensions": {
-        "width": 1600,
-        "height": 1000
-      },
-      "fileSize": 63389
-    },
-    {
       "id": "20260610_DSC01884",
       "title": "",
       "description": "",
@@ -3588,22 +3565,6 @@
       }
     },
     {
-      "id": "20250607_tumblr_mvi3fesvrY1skj7yuo10_500",
-      "title": "",
-      "description": "",
-      "date": "2013-10-31",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvi3fesvrY1skj7yuo10_500.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvi3fesvrY1skj7yuo10_500_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvi3fesvrY1skj7yuo10_500.webp",
-      "dimensions": {
-        "width": 438,
-        "height": 670
-      },
-      "fileSize": 115638
-    },
-    {
       "id": "20250607_tumblr_mvi3dzN5dE1skj7yuo9_1280",
       "title": "",
       "description": "",
@@ -4275,26 +4236,6 @@
       "fileSize": 112215
     },
     {
-      "id": "20250607_tumblr_mvi39ut3AM1skj7yuo4_1280",
-      "title": "",
-      "description": "",
-      "date": "2013-10-31",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvi39ut3AM1skj7yuo4_1280.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvi39ut3AM1skj7yuo4_1280_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvi39ut3AM1skj7yuo4_1280.webp",
-      "dimensions": {
-        "width": 800,
-        "height": 536
-      },
-      "fileSize": 93557,
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi39ut3AM1skj7yuo4_1280_640w.jpg",
-        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi39ut3AM1skj7yuo4_1280_768w.jpg"
-      }
-    },
-    {
       "id": "20250607_tumblr_mvi39ut3AM1skj7yuo3_1280",
       "title": "",
       "description": "",
@@ -4399,27 +4340,6 @@
         "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi37smB5x1skj7yuo8_1280_640w.jpg",
         "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi37smB5x1skj7yuo8_1280_768w.jpg",
         "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi37smB5x1skj7yuo8_1280_1024w.jpg"
-      }
-    },
-    {
-      "id": "20250607_tumblr_mvi37smB5x1skj7yuo7_1280",
-      "title": "",
-      "description": "",
-      "date": "2013-10-31",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvi37smB5x1skj7yuo7_1280.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvi37smB5x1skj7yuo7_1280_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvi37smB5x1skj7yuo7_1280.webp",
-      "dimensions": {
-        "width": 1024,
-        "height": 686
-      },
-      "fileSize": 220395,
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi37smB5x1skj7yuo7_1280_640w.jpg",
-        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi37smB5x1skj7yuo7_1280_768w.jpg",
-        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvi37smB5x1skj7yuo7_1280_1024w.jpg"
       }
     },
     {
@@ -7030,38 +6950,6 @@
       "fileSize": 133700
     },
     {
-      "id": "20250607_tumblr_mvfxqzdoFg1skj7yuo9_500",
-      "title": "",
-      "description": "",
-      "date": "2013-10-30",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvfxqzdoFg1skj7yuo9_500.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvfxqzdoFg1skj7yuo9_500_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvfxqzdoFg1skj7yuo9_500.webp",
-      "dimensions": {
-        "width": 429,
-        "height": 640
-      },
-      "fileSize": 96668
-    },
-    {
-      "id": "20250607_tumblr_mvfxqzdoFg1skj7yuo8_500",
-      "title": "",
-      "description": "",
-      "date": "2013-10-30",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvfxqzdoFg1skj7yuo8_500.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvfxqzdoFg1skj7yuo8_500_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvfxqzdoFg1skj7yuo8_500.webp",
-      "dimensions": {
-        "width": 429,
-        "height": 640
-      },
-      "fileSize": 106248
-    },
-    {
       "id": "20250607_tumblr_mvfxqzdoFg1skj7yuo7_1280",
       "title": "",
       "description": "",
@@ -7396,25 +7284,6 @@
       }
     },
     {
-      "id": "20250607_tumblr_mvfxjcMJs61skj7yuo9_640",
-      "title": "",
-      "description": "",
-      "date": "2013-10-30",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvfxjcMJs61skj7yuo9_640.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvfxjcMJs61skj7yuo9_640_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvfxjcMJs61skj7yuo9_640.webp",
-      "dimensions": {
-        "width": 640,
-        "height": 429
-      },
-      "fileSize": 60601,
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvfxjcMJs61skj7yuo9_640_640w.jpg"
-      }
-    },
-    {
       "id": "20250607_tumblr_mvfxjcMJs61skj7yuo8_1280",
       "title": "",
       "description": "",
@@ -7739,26 +7608,6 @@
         "height": 593
       },
       "fileSize": 54620
-    },
-    {
-      "id": "20250607_tumblr_mvfxgqkmdA1skj7yuo10_1280",
-      "title": "",
-      "description": "",
-      "date": "2013-10-30",
-      "year": 2013,
-      "month": 10,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250607_tumblr_mvfxgqkmdA1skj7yuo10_1280.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250607_tumblr_mvfxgqkmdA1skj7yuo10_1280_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250607_tumblr_mvfxgqkmdA1skj7yuo10_1280.webp",
-      "dimensions": {
-        "width": 800,
-        "height": 536
-      },
-      "fileSize": 128516,
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvfxgqkmdA1skj7yuo10_1280_640w.jpg",
-        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2013/10/20250607_tumblr_mvfxgqkmdA1skj7yuo10_1280_768w.jpg"
-      }
     },
     {
       "id": "20250607_tumblr_mvfxchnZ5s1skj7yuo9_1280",
@@ -8296,30 +8145,6 @@
       }
     },
     {
-      "id": "20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646",
-      "title": "",
-      "description": "",
-      "date": "2024-08-13",
-      "year": 2024,
-      "month": 8,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646.webp",
-      "dimensions": {
-        "width": 2048,
-        "height": 1365
-      },
-      "fileSize": 581923,
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2024/08/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_640w.jpg",
-        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2024/08/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_768w.jpg",
-        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2024/08/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_1024w.jpg",
-        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2024/08/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_1280w.jpg",
-        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2024/08/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_1536w.jpg",
-        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2024/08/20250606_fe85b7410dc17ed2cd77610e8d4e81a536f38646_1920w.jpg"
-      }
-    },
-    {
       "id": "20250606_fd6ceb66555df22e7411955f9f74a5395a0f2837",
       "title": "",
       "description": "",
@@ -8483,30 +8308,6 @@
         "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2020/12/20250606_f776b6a76cf65c8992d8c506f11f7e0b5a47d379_1280w.jpg",
         "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2020/12/20250606_f776b6a76cf65c8992d8c506f11f7e0b5a47d379_1536w.jpg",
         "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2020/12/20250606_f776b6a76cf65c8992d8c506f11f7e0b5a47d379_1920w.jpg"
-      }
-    },
-    {
-      "id": "20250606_f6d8968684f36e416806404594e9fe86f070b99e",
-      "title": "",
-      "description": "",
-      "date": "2022-03-21",
-      "year": 2022,
-      "month": 3,
-      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2025/06/20250606_f6d8968684f36e416806404594e9fe86f070b99e.jpg",
-      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2025/06/20250606_f6d8968684f36e416806404594e9fe86f070b99e_thumb.jpg",
-      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2025/06/20250606_f6d8968684f36e416806404594e9fe86f070b99e.webp",
-      "dimensions": {
-        "width": 2048,
-        "height": 1360
-      },
-      "fileSize": 594479,
-      "responsive": {
-        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2022/03/20250606_f6d8968684f36e416806404594e9fe86f070b99e_640w.jpg",
-        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2022/03/20250606_f6d8968684f36e416806404594e9fe86f070b99e_768w.jpg",
-        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2022/03/20250606_f6d8968684f36e416806404594e9fe86f070b99e_1024w.jpg",
-        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2022/03/20250606_f6d8968684f36e416806404594e9fe86f070b99e_1280w.jpg",
-        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2022/03/20250606_f6d8968684f36e416806404594e9fe86f070b99e_1536w.jpg",
-        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2022/03/20250606_f6d8968684f36e416806404594e9fe86f070b99e_1920w.jpg"
       }
     },
     {
@@ -14871,6 +14672,6 @@
       }
     }
   ],
-  "totalCount": 701,
-  "lastUpdated": "2026-10-11T01:22:06.028Z"
+  "totalCount": 691,
+  "lastUpdated": "2026-10-11T01:36:47.450Z"
 }
