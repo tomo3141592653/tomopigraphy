@@ -231,16 +231,37 @@ class ArtworkUploader {
 program
     .name('upload')
     .description('Upload artwork to the pixel gallery')
-    .argument('<image>', 'Path to the image file to upload')
-    .option('-t, --title <title>', 'Artwork title')
-    .option('-d, --description <description>', 'Artwork description')
+    .argument('<images...>', 'Path(s) to the image file(s) to upload')
+    .option('-t, --title <title>', 'Artwork title (single image only)')
+    .option('-d, --description <description>', 'Artwork description (single image only)')
     .option('-f, --use-file-date', 'Use file modification date instead of upload date')
-    .action(async (imagePath, options) => {
-        try {
-            const uploader = new ArtworkUploader();
-            await uploader.uploadImage(imagePath, options.title, options.description, options.useFileDate);
-        } catch (error) {
-            console.error('Upload failed:', error.message);
+    .option('-m, --meta <json>', 'JSON file: { "<basename>": { "title": "...", "description": "..." } } (for multiple images)')
+    .action(async (imagePaths, options) => {
+        // 複数枚を1プロセスで処理する（nodeとaws-sdkの起動は1回で済む）
+        let meta = {};
+        if (options.meta) {
+            try {
+                meta = JSON.parse(fs.readFileSync(options.meta, 'utf8'));
+            } catch (error) {
+                console.error('❌ --meta を読めない:', error.message);
+                process.exit(1);
+            }
+        }
+        const uploader = new ArtworkUploader();
+        let failed = 0;
+        for (const imagePath of imagePaths) {
+            const m = meta[path.basename(imagePath)] || {};
+            const title = imagePaths.length === 1 ? (options.title || m.title) : m.title;
+            const description = imagePaths.length === 1 ? (options.description || m.description) : m.description;
+            try {
+                await uploader.uploadImage(imagePath, title, description, options.useFileDate);
+            } catch (error) {
+                failed++;
+                console.error(`Upload failed (${path.basename(imagePath)}):`, error.message);
+            }
+        }
+        if (failed > 0) {
+            console.error(`❌ ${failed}/${imagePaths.length} 枚が失敗`);
             process.exit(1);
         }
     });
