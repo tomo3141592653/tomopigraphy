@@ -1,6 +1,29 @@
 {
   "artworks": [
     {
+      "id": "20261011_ayumu_upload_test",
+      "title": "投稿テスト（すぐ消す）",
+      "description": "",
+      "date": "2026-10-11",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261011_ayumu_upload_test.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261011_ayumu_upload_test_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261011_ayumu_upload_test.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_upload_test_1536w.jpg"
+      },
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "fileSize": 63389
+    },
+    {
       "id": "20260610_DSC01884",
       "title": "",
       "description": "",
@@ -14848,6 +14871,6 @@
       }
     }
   ],
-  "totalCount": 700,
-  "lastUpdated": "2026-07-03T11:26:37.560Z"
+  "totalCount": 701,
+  "lastUpdated": "2026-10-11T01:22:06.028Z"
 }
