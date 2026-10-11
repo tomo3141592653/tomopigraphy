@@ -1,6 +1,50 @@
 {
   "artworks": [
     {
+      "id": "20261011_ayumu_batch_test_1",
+      "title": "テストB",
+      "description": "",
+      "date": "2026-10-11",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261011_ayumu_batch_test_1.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261011_ayumu_batch_test_1_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261011_ayumu_batch_test_1.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_1_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_1_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_1_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_1_1280w.jpg"
+      },
+      "dimensions": {
+        "width": 1400,
+        "height": 900
+      },
+      "fileSize": 30906
+    },
+    {
+      "id": "20261011_ayumu_batch_test_0",
+      "title": "テストA",
+      "description": "",
+      "date": "2026-10-11",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261011_ayumu_batch_test_0.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261011_ayumu_batch_test_0_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261011_ayumu_batch_test_0.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_0_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_0_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_0_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261011_ayumu_batch_test_0_1280w.jpg"
+      },
+      "dimensions": {
+        "width": 1400,
+        "height": 900
+      },
+      "fileSize": 30885
+    },
+    {
       "id": "20260831_IMG_0814",
       "title": "",
       "description": "",
@@ -14697,6 +14741,6 @@
       }
     }
   ],
-  "totalCount": 692,
-  "lastUpdated": "2026-10-11T02:33:55.961Z"
+  "totalCount": 694,
+  "lastUpdated": "2026-10-11T03:40:03.824Z"
 }
