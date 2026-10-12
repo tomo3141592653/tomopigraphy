@@ -32,14 +32,11 @@
   const smallSrc = p => (p.responsive && p.responsive['640']) || p.thumbnail || p.original;
 
   // ── 段組み ───────────────────────────────────
-  // 横長は一段に一枚。縦長と正方形は二枚続けば見開きに並べ、一枚なら真ん中に置く。
+  // 一段に一枚。横長は列の幅いっぱい、縦長と正方形は真ん中に置く(並べると小さくなるので並べない)。
   function layout() {
     for (let i = 0; i < photos.length;) {
       const r = ratio(photos[i]);
       if (r >= WIDE) { rows.push({ kind: 'full', items: [i] }); i += 1; continue; }
-      if (i + 1 < photos.length && ratio(photos[i + 1]) < WIDE) {
-        rows.push({ kind: 'pair', items: [i, i + 1] }); i += 2; continue;
-      }
       rows.push({ kind: 'single', items: [i], side: 'c' });
       i += 1;
     }
