@@ -80,21 +80,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .author:hover::after, .author:focus-visible::after { transform: scaleX(1); transform-origin: left; }
 
-/* 題字が流れたあとに残る小さな印 */
-.mark {
-  position: fixed; z-index: 5;
-  top: max(14px, env(safe-area-inset-top));
-  left: max(var(--gutter), env(safe-area-inset-left));
-  font-size: 19px;
-  letter-spacing: -.01em;
-  color: #fff;
-  mix-blend-mode: difference;
-  opacity: 0; pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity .4s var(--ease), transform .4s var(--ease);
-}
-.mark.is-on { opacity: 1; pointer-events: auto; transform: none; }
-
 /* ── 写真の列 ───────────────────────────────── */
 .feed {
   max-width: calc(var(--col) + 2 * var(--gutter));

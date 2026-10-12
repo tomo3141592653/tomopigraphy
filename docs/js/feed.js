@@ -9,7 +9,7 @@
   const $ = id => document.getElementById(id);
   const feed = $('feed'), sentinel = $('sentinel');
   const lb = $('lb'), frame = $('lbFrame'), lo = $('lbLo'), hi = $('lbHi');
-  const closeBtn = $('lbClose'), counter = $('lbCount'), mark = $('mark');
+  const closeBtn = $('lbClose'), counter = $('lbCount');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const EASE = 'cubic-bezier(.2,.7,.1,1)';
 
@@ -290,11 +290,6 @@
     e.preventDefault();
     openAt(+a.dataset.i);
   });
-
-  // ── 題字が流れたら小さな印を出す
-  new IntersectionObserver(([en]) => mark.classList.toggle('is-on', !en.isIntersecting))
-    .observe(document.querySelector('.wordmark'));
-  mark.addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' }); });
 
   // ── 起動
   fetch('data/artworks.json')
