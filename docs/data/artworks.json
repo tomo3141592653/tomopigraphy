@@ -1,6 +1,32 @@
 {
   "artworks": [
     {
+      "id": "20261012_DSC02997",
+      "title": "水晶えりか",
+      "description": "",
+      "date": "2026-10-12",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261012_DSC02997.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261012_DSC02997_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261012_DSC02997.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_1920w.jpg",
+        "2560": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261012_DSC02997_2560w.jpg"
+      },
+      "dimensions": {
+        "width": 6000,
+        "height": 4000
+      },
+      "color": "#898381",
+      "fileSize": 16827872
+    },
+    {
       "id": "20261012_DSC04317",
       "title": "",
       "description": "",
@@ -15415,6 +15441,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 693,
-  "lastUpdated": "2026-10-12T09:04:16.255Z"
+  "totalCount": 694,
+  "lastUpdated": "2026-10-12T15:43:08.099Z"
 }
