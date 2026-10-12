@@ -32,16 +32,15 @@
   const smallSrc = p => (p.responsive && p.responsive['640']) || p.thumbnail || p.original;
 
   // ── 段組み ───────────────────────────────────
-  // 横長は一段に一枚。縦長と正方形は二枚続けば見開きに並べ、一枚なら左右に振る。
+  // 横長は一段に一枚。縦長と正方形は二枚続けば見開きに並べ、一枚なら真ん中に置く。
   function layout() {
-    let side = 0;
     for (let i = 0; i < photos.length;) {
       const r = ratio(photos[i]);
       if (r >= WIDE) { rows.push({ kind: 'full', items: [i] }); i += 1; continue; }
       if (i + 1 < photos.length && ratio(photos[i + 1]) < WIDE) {
         rows.push({ kind: 'pair', items: [i, i + 1] }); i += 2; continue;
       }
-      rows.push({ kind: 'single', items: [i], side: ['l', 'r'][side++ % 2] });
+      rows.push({ kind: 'single', items: [i], side: 'c' });
       i += 1;
     }
     rows.forEach((row, n) => row.items.forEach(i => { rowOf[i] = n; }));

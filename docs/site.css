@@ -98,7 +98,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ── 写真の列 ───────────────────────────────── */
 .feed {
   max-width: calc(var(--col) + 2 * var(--gutter));
-  margin: clamp(40px, 8vw, 120px) auto 0;
+  margin: clamp(32px, 4.4vw, 64px) auto 0;
   padding: 0 var(--gutter);
   display: flex;
   flex-direction: column;
@@ -106,8 +106,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .row { display: flex; gap: var(--gap); }
 .row.single { width: var(--single, 58%); }
-.row.single.l { margin-right: auto; }
-.row.single.r { margin-left: auto; }
 .row.single.c { margin-inline: auto; }
 
 .ph {
