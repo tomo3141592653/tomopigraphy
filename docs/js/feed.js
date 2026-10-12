@@ -174,7 +174,7 @@
         frame.animate([{ opacity: 0 }, { opacity: 1 }], { duration: reduced ? 1 : 260, easing: 'linear' });
       }
     });
-    closeBtn.focus({ preventScroll: true, focusVisible: false });
+    closeBtn.focus({ preventScroll: true, focusVisible: byKey });
   }
 
   function go(step) {
@@ -216,7 +216,7 @@
       lb.hidden = true;
       el.classList.remove('is-source');
       document.documentElement.classList.remove('is-locked');
-      el.focus({ preventScroll: true });
+      el.focus({ preventScroll: true, focusVisible: byKey });
     };
     if (reduced) { done(); return; }
     el.classList.add('is-source');
@@ -270,6 +270,11 @@
   lb.addEventListener('pointerup', release);
   lb.addEventListener('pointercancel', () => { down = null; frame.style.transform = ''; lb.style.background = ''; });
   lb.addEventListener('contextmenu', e => e.preventDefault());
+
+  // フォーカスの輪はキーボードで操作しているときだけ見せる
+  let byKey = false;
+  addEventListener('keydown', () => { byKey = true; }, true);
+  addEventListener('pointerdown', () => { byKey = false; }, true);
 
   closeBtn.addEventListener('click', e => { e.stopPropagation(); requestClose(); });
 
