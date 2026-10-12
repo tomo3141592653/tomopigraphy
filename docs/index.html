@@ -1,102 +1,48 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>tomoπgraphy</title>
+<meta name="description" content="Photographs by Tomoyoshi Hirata.">
+<meta property="og:title" content="tomoπgraphy">
+<meta property="og:description" content="Photographs by Tomoyoshi Hirata.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <a href="about.html" class="logo">
-                <div class="pixel-bird"></div>
-                tomoπgraphy
-            </a>
-            <nav class="nav-links">
-                <a href="#" class="nav-link active" data-view="random">Home</a>
-                <a href="?view=top" class="nav-link" data-view="top">Top</a>
-                <a href="?view=gallery" class="nav-link" data-view="gallery">Gallery</a>
-            </nav>
-        </div>
-    </header>
+<a class="mark" href="#top" id="mark" aria-label="いちばん上へ">tomoπgraphy</a>
 
-    <main class="main-content">
-        <!-- ランダム表示セクション -->
-        <section class="random-section" id="randomSection">
-            
-            <div class="random-display">
-                <div class="random-image-container">
-                    <img class="random-image" id="randomImage" src="">
-                    <div class="loading-overlay" id="loadingOverlay">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
-                
-                <div class="random-info">
-                    <div class="random-info-left">
-                        <div class="random-title" id="randomTitle">loading...</div>
-                        <div class="random-meta" id="randomMeta"></div>
-                    </div>
-                    <div class="random-controls">
-                        <button class="control-btn" id="newestBtn" title="最新の写真">⤵</button>
-                        <button class="control-btn" id="randomBtn" title="ランダム表示">⇝</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+<header class="masthead" id="top">
+  <h1 class="wordmark">tomo<span class="pi">π</span>graphy</h1>
+  <div class="byline">
+    <span class="count" id="count"></span>
+    <a class="author" href="https://tomo3141592653.github.io/tomoyoshi-site/">Tomoyoshi Hirata<span class="arrow" aria-hidden="true">↗</span></a>
+  </div>
+</header>
 
-        <!-- 最新写真セクション (Top) -->
-        <section class="random-section hidden" id="topSection">
-            <div class="random-display">
-                <div class="random-image-container">
-                    <img class="random-image" id="topImage" src="">
-                    <div class="loading-overlay" id="topLoadingOverlay">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
+<main class="feed" id="feed" aria-label="写真"></main>
+<div class="sentinel" id="sentinel" aria-hidden="true"></div>
 
-                <div class="random-info">
-                    <div class="random-info-left">
-                        <div class="random-title" id="topTitle">loading...</div>
-                        <div class="random-meta" id="topMeta"></div>
-                    </div>
-                    <div class="top-counter" id="topCounter">1 / 100</div>
-                    <div class="random-controls">
-                        <button class="control-btn" id="topPrevBtn" title="Previous">←</button>
-                        <button class="control-btn" id="topNextBtn" title="Next">→</button>
-                        <button class="control-btn" id="topLatestBtn" title="Latest">⤒</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+<footer class="colophon">
+  <a class="author" href="https://tomo3141592653.github.io/tomoyoshi-site/">Tomoyoshi Hirata<span class="arrow" aria-hidden="true">↗</span></a>
+</footer>
 
-        <!-- ギャラリーセクション -->
-        <section class="gallery-section" id="gallerySection">
-            <div class="gallery-header">
-                <div class="gallery-controls">
-                    <button class="view-toggle active" id="normalView">normal</button>
-                    <button class="view-toggle" id="compactView">compact</button>
-                </div>
-            </div>
-            <div id="galleryContent">
-                <!-- Gallery content will be loaded here -->
-            </div>
-        </section>
-    </main>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <div class="lb-frame" id="lbFrame">
+    <img class="lb-lo" id="lbLo" alt="">
+    <img class="lb-hi" id="lbHi" alt="">
+  </div>
+  <button class="lb-close" id="lbClose" aria-label="閉じる"><span></span><span></span></button>
+  <div class="lb-count" id="lbCount" aria-live="polite"></div>
+</div>
 
-    <!-- モーダル -->
-    <div class="modal" id="artModal">
-        <div class="modal-content">
-            <img class="modal-image" id="modalImage" src="">
-            <div class="modal-title" id="modalTitle"></div>
-            <div class="modal-meta" id="modalMeta"></div>
-            <div class="modal-navigation">
-                <button class="modal-nav modal-prev" id="modalPrev">‹</button>
-                <button class="modal-nav modal-next" id="modalNext">›</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/gallery.js"></script>
+<script src="js/feed.js"></script>
 </body>
 </html>

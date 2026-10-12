@@ -87,6 +87,13 @@ class ArtworkUploader {
 
             const image = sharp(imageBuffer).rotate(); // EXIF回転を自動適用
             const metadata = await image.metadata();
+            // metadata() は回転前の寸法を返す。EXIFの向きが5〜8(90度回転)なら幅と高さが入れ替わる
+            if (metadata.orientation >= 5) {
+                [metadata.width, metadata.height] = [metadata.height, metadata.width];
+            }
+            // 読み込み中に写真の場所を塗っておく平均色
+            const { data: px } = await sharp(imageBuffer).resize(1, 1).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+            const color = '#' + [...px].map(v => v.toString(16).padStart(2, '0')).join('');
             
             console.log(`📐 画像サイズ: ${metadata.width}x${metadata.height}`);
             
@@ -172,6 +179,7 @@ class ArtworkUploader {
                 webp: `${config.s3.cdnDomain}/${paths.webp}`,
                 responsive: responsiveUrls,
                 dimensions: { width: metadata.width, height: metadata.height },
+                color,
                 fileSize: imageBuffer.length
             };
             
