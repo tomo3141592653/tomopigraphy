@@ -32,22 +32,27 @@
   const smallSrc = p => (p.responsive && p.responsive['640']) || p.thumbnail || p.original;
 
   // ── 段組み ───────────────────────────────────
-  // 一段に一枚。横長は列の幅いっぱい、縦長と正方形は真ん中に置く(並べると小さくなるので並べない)。
+  // 一段に一枚が基本。パソコンでは一枚が画面の高さに収まる大きさで出す(site.css)。
+  // 縦長が続いたら二枚を見開きのように並べる(スマホでは縦に積むので一枚ずつに見える)。
+  const TALL = .95;              // これ未満を縦長とみなして二枚並べる
   function layout() {
     for (let i = 0; i < photos.length;) {
       const r = ratio(photos[i]);
-      if (r >= WIDE) { rows.push({ kind: 'full', items: [i] }); i += 1; continue; }
-      rows.push({ kind: 'single', items: [i], side: 'c' });
+      if (r < TALL && i + 1 < photos.length && ratio(photos[i + 1]) < TALL) {
+        rows.push({ kind: 'pair', items: [i, i + 1] }); i += 2; continue;
+      }
+      rows.push({ kind: r >= WIDE ? 'full' : 'single', items: [i], side: r >= WIDE ? undefined : 'c' });
       i += 1;
     }
     rows.forEach((row, n) => row.items.forEach(i => { rowOf[i] = n; }));
   }
 
   function sizesFor(row, i) {
-    if (row.kind === 'full') return `(min-width: 1290px) ${COL}px, (max-width: 640px) calc(100vw - 12px), 92vw`;
-    if (row.kind === 'single') return `(min-width: 1290px) ${Math.round(COL * .58)}px, (max-width: 640px) calc(100vw - 12px), 54vw`;
-    const [a, b] = row.items, f = ratio(photos[i]) / (ratio(photos[a]) + ratio(photos[b]));
-    return `(min-width: 1290px) ${Math.round(COL * f)}px, (max-width: 640px) ${Math.round(100 * f)}vw, ${Math.round(92 * f)}vw`;
+    const r = ratio(photos[i]);
+    const sum = row.items.reduce((t, j) => t + ratio(photos[j]), 0);
+    const pc = `min(${COL}px, 92vw, ${Math.round(84 * r)}vh, ${Math.round(COL * r / sum)}px)`;
+    if (row.kind === 'full') return `(max-width: 640px) calc(100vw - 12px), (max-width: 899px) 92vw, ${pc}`;
+    return `(max-width: 640px) calc(100vw - 12px), (max-width: 899px) 60vw, ${pc}`;
   }
 
   function makeItem(row, i, eager) {
@@ -80,6 +85,8 @@
       const row = rows[rendered];
       const div = document.createElement('div');
       div.className = `row ${row.kind}${row.side ? ' ' + row.side : ''}`;
+      div.style.setProperty('--n', row.items.length);
+      div.style.setProperty('--sum', row.items.reduce((t, j) => t + ratio(photos[j]), 0).toFixed(4));
       if (row.kind === 'single') {
         // 縦長でも正方形でも、横長の段と高さが揃って見える幅にする
         const r = ratio(photos[row.items[0]]);

@@ -127,8 +127,29 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .colophon .author { border-top: 1px solid var(--ink); padding-top: 12px; }
 .colophon .author::after { display: none; }
 
+.row.pair { flex-direction: column; align-items: center; }
+.row.pair .ph { flex: none; width: var(--single, 58%); }
+
+/* パソコン: どの写真も画面の高さに丸ごと収まる大きさにそろえる。
+   一段の高さ = 画面の高さの84% と「列の幅を写真の横縦比の合計で割った高さ」の小さいほう。
+   段の間は広く取り、一枚ずつ(見開きは二枚ずつ)を独立して見せる */
+@media (min-width: 900px) {
+  .feed { gap: clamp(72px, 16vh, 180px); margin-top: clamp(64px, 12vh, 140px); }
+  .row, .row.single, .row.pair {
+    --avail: min(calc(100vw - 2 * var(--gutter)), var(--col));
+    width: auto;
+    flex-direction: row;
+    justify-content: center;
+    gap: clamp(12px, 1.6vw, 28px);
+    height: min(84vh, calc((var(--avail) - clamp(12px, 1.6vw, 28px) * (var(--n, 1) - 1)) / var(--sum, 1.5)));
+  }
+  .row .ph, .row.pair .ph { flex: none; height: 100%; width: auto; }
+}
+
 @media (max-width: 640px) {
   .row.single { width: 100%; }
+  .row.pair .ph { width: 100%; }
+  .row.pair { gap: 6px; }
   .feed { gap: var(--gap); padding: 0 6px; margin-top: 32px; }
   .row { gap: 6px; }
 }
