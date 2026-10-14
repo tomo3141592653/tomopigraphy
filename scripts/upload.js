@@ -60,7 +60,9 @@ class ArtworkUploader {
 
             // Use file date or upload date based on option
             const dateToUse = useFileDate ? fileDate : uploadDate;
-            const timestamp = dateToUse.toISOString().slice(0, 10).replace(/-/g, '');
+            // 日付は手元の時刻(日本時間)で作る。toISOString は世界標準時なので、朝9時前だと前日になる
+            const localDate = `${dateToUse.getFullYear()}-${String(dateToUse.getMonth() + 1).padStart(2, '0')}-${String(dateToUse.getDate()).padStart(2, '0')}`;
+            const timestamp = localDate.replace(/-/g, '');
             const rawFileName = path.basename(imagePath, path.extname(imagePath));
             // スペース、括弧、その他特殊文字をアンダースコアに置換（URL安全なファイル名に）
             const fileName = rawFileName.replace(/[\s()[\]{}'"<>|&;$#!?*]+/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
@@ -171,7 +173,7 @@ class ArtworkUploader {
                 id,
                 title: title || '',
                 description,
-                date: dateToUse.toISOString().slice(0, 10),
+                date: localDate,
                 year,
                 month: parseInt(month),
                 original: `${config.s3.cdnDomain}/${paths.original}`,
