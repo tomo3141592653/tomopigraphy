@@ -32,19 +32,27 @@
   const smallSrc = p => (p.responsive && p.responsive['640']) || p.thumbnail || p.original;
 
   // ── 段組み ───────────────────────────────────
-  // 一段に一枚が基本。パソコンでは一枚が画面の高さに収まる大きさで出す(site.css)。
-  // 縦長が続いたら二枚を見開きのように並べる(スマホでは縦に積むので一枚ずつに見える)。
-  const TALL = .95;              // これ未満を縦長とみなして二枚並べる
+  // 縦長は必ず二枚一組にする。縦長が出たら、次に出てくる縦長を前へ引き寄せて隣に置く
+  // (間の横長は一組のあとに回る)。拡大表示の前後送りも見た目の順に合わせるため、
+  // photos 自体を並べ替える。パソコンでは一段が画面の高さに収まる(site.css)。
+  const TALL = .95;              // これ未満を縦長とみなす
   function layout() {
-    for (let i = 0; i < photos.length;) {
-      const r = ratio(photos[i]);
-      if (r < TALL && i + 1 < photos.length && ratio(photos[i + 1]) < TALL) {
-        rows.push({ kind: 'pair', items: [i, i + 1] }); i += 2; continue;
+    const out = [];
+    let open = null;
+    photos.forEach((p, k) => {
+      const r = ratio(p);
+      if (r < TALL) {
+        if (open) { open.items.push(k); open = null; }
+        else { open = { kind: 'pair', items: [k] }; out.push(open); }
+      } else {
+        out.push(r >= WIDE ? { kind: 'full', items: [k] } : { kind: 'single', items: [k], side: 'c' });
       }
-      rows.push({ kind: r >= WIDE ? 'full' : 'single', items: [i], side: r >= WIDE ? undefined : 'c' });
-      i += 1;
-    }
-    rows.forEach((row, n) => row.items.forEach(i => { rowOf[i] = n; }));
+    });
+    if (open) { open.kind = 'single'; open.side = 'c'; }   // 最後に一枚だけ余った縦長
+    photos = out.flatMap(row => row.items).map(k => photos[k]);
+    let n = 0;
+    rows = out.map(row => ({ ...row, items: row.items.map(() => n++) }));
+    rows.forEach((row, m) => row.items.forEach(i => { rowOf[i] = m; }));
   }
 
   function sizesFor(row, i) {

@@ -1,24 +1,15 @@
 :root {
-  --bg: #ffffff;
-  --ink: #141414;
-  --mute: #767676;
-  --rule: #e4e4e4;
+  --bg: #0a0a0a;
+  --ink: #ebe9e6;
+  --mute: #8a8a8a;
+  --rule: #1e1e1e;
   --col: 1180px;
   --gutter: clamp(14px, 4.2vw, 56px);
   --gap: clamp(6px, 1.1vw, 14px);
   --beat: clamp(6px, 4.6vw, 64px);
   --serif: "EB Garamond", "Iowan Old Style", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --ease: cubic-bezier(.2, .7, .1, 1);
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0e0e0e;
-    --ink: #ebe9e6;
-    --mute: #8c8c8c;
-    --rule: #262626;
-    color-scheme: dark;
-  }
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
