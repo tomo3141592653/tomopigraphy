@@ -140,9 +140,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 @media (max-width: 640px) {
   .row.single { width: 100%; }
   .row.pair .ph { width: 100%; }
-  .row.pair { gap: 6px; }
-  .feed { gap: var(--gap); padding: 0 6px; margin-top: 32px; }
-  .row { gap: 6px; }
+  /* 写真の間は一枚ずつ独立して見える広さに。二枚組の中も同じ間隔にそろえる */
+  .row.pair { gap: 32px; }
+  .feed { gap: 32px; padding: 0 6px; margin-top: 32px; }
+  .row { gap: 32px; }
 }
 
 /* ── 拡大表示 ───────────────────────────────── */
