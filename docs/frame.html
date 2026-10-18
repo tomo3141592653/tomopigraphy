@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="tomoπ">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex">
+<title>tomoπgraphy frame</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  body { cursor: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  img {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 2.4s ease;
+  }
+  img.is-on { opacity: 1; }
+</style>
+</head>
+<body>
+<img id="a" alt="">
+<img id="b" alt="">
+<script>
+// 写真立て。tomoπgraphy の写真をランダムな順に、ゆっくり入れ替えて流し続ける。
+// 画面の向きに合う写真を優先する(縦に立てたら縦の写真、横にしたら横の写真)。
+// ?s=秒 で入れ替えの間隔を変えられる(既定30秒)。画面を叩くとすぐ次へ。
+(function () {
+  'use strict';
+  var params = new URLSearchParams(location.search);
+  var INTERVAL = Math.max(5, Number(params.get('s')) || 30) * 1000;
+  var layers = [document.getElementById('a'), document.getElementById('b')];
+  var front = 0, all = [], queue = [], timer = null, busy = false;
+
+  function ratio(p) { var d = p.dimensions || {}; return d.height ? d.width / d.height : 1.5; }
+  function portraitScreen() { return innerHeight > innerWidth; }
+  function fits(p) { var r = ratio(p); return portraitScreen() ? r < 1.05 : r > 0.95; }
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function refill() {
+    var pool = all.filter(fits);
+    queue = shuffle(pool.length >= 10 ? pool : all.slice());
+  }
+
+  // 画面の長い辺に見合う大きさを選ぶ。古い端末でも重くならないよう2560pxは使わない
+  function src(p) {
+    var r = p.responsive || {}, need = Math.max(innerWidth, innerHeight) * Math.min(devicePixelRatio || 1, 2);
+    var sizes = Object.keys(r).map(Number).filter(function (w) { return w <= 1920; }).sort(function (x, y) { return x - y; });
+    for (var i = 0; i < sizes.length; i++) if (sizes[i] >= need) return r[sizes[i]];
+    return sizes.length ? r[sizes[sizes.length - 1]] : p.original;
+  }
+
+  function next() {
+    if (busy || !all.length) return;
+    if (!queue.length) refill();
+    var p = queue.shift();
+    var back = layers[1 - front];
+    busy = true;
+    back.onload = function () {
+      back.classList.add('is-on');
+      layers[front].classList.remove('is-on');
+      front = 1 - front;
+      busy = false;
+      schedule();
+    };
+    back.onerror = function () { busy = false; next(); };
+    back.src = src(p);
+  }
+  function schedule() { clearTimeout(timer); timer = setTimeout(next, INTERVAL); }
+
+  document.addEventListener('click', function () { clearTimeout(timer); next(); });
+  // 向きを変えたら、その向きに合う写真に切り替える
+  var wasPortrait = portraitScreen();
+  function onTurn() {
+    setTimeout(function () {
+      if (portraitScreen() === wasPortrait) return;
+      wasPortrait = portraitScreen();
+      refill(); clearTimeout(timer); next();
+    }, 400);
+  }
+  addEventListener('orientationchange', onTurn);
+  addEventListener('resize', onTurn);
+  // 画面を消して戻ってきたとき、止まっていた入れ替えを再開する
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) schedule(); });
+
+  // 写真の追加を拾うため、半日ごとに一覧を読み直す
+  function load() {
+    return fetch('data/artworks.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (d) {
+      all = (d.artworks || []).filter(function (p) { return p && p.original; });
+      refill();
+    });
+  }
+  load().then(next);
+  setInterval(load, 12 * 3600 * 1000);
+})();
+</script>
+</body>
+</html>
