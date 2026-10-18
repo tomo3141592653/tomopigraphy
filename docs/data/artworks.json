@@ -1,6 +1,31 @@
 {
   "artworks": [
     {
+      "id": "20261019_IMG_8430",
+      "title": "",
+      "description": "",
+      "date": "2026-10-19",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261019_IMG_8430.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261019_IMG_8430_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261019_IMG_8430.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261019_IMG_8430_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261019_IMG_8430_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261019_IMG_8430_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261019_IMG_8430_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261019_IMG_8430_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261019_IMG_8430_1920w.jpg"
+      },
+      "dimensions": {
+        "width": 2048,
+        "height": 1478
+      },
+      "color": "#605151",
+      "fileSize": 1124411
+    },
+    {
       "id": "20261019_DSC06351",
       "title": "ジョージア",
       "description": "",
@@ -15931,6 +15956,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 713,
-  "lastUpdated": "2026-10-18T15:30:10.264Z"
+  "totalCount": 714,
+  "lastUpdated": "2026-10-18T15:32:16.240Z"
 }
