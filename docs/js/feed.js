@@ -32,17 +32,23 @@
   const smallSrc = p => (p.responsive && p.responsive['640']) || p.thumbnail || p.original;
 
   // ── 段組み ───────────────────────────────────
-  // 縦長は必ず二枚一組にする。縦長が出たら、次に出てくる縦長を前へ引き寄せて隣に置く
+  // 縦長は二枚一組にする。縦長が出たら、次に出てくる縦長を前へ引き寄せて隣に置く
   // (間の横長は一組のあとに回る)。拡大表示の前後送りも見た目の順に合わせるため、
   // photos 自体を並べ替える。パソコンでは一段が画面の高さに収まる(site.css)。
+  // 二枚が横に並ぶのは 900px 以上だけ(site.css)。狭い画面では縦に積むだけなので組まず、新しい順のまま流す。
   const TALL = .95;              // これ未満を縦長とみなす
+  const wideMQ = matchMedia('(min-width: 900px)');
+  let byDate = [];               // 並べ替える前の、新しい順
   function layout() {
+    photos = byDate.slice();
     const out = [];
     let open = null;
+    const pairUp = wideMQ.matches;
     photos.forEach((p, k) => {
       const r = ratio(p);
       if (r < TALL) {
-        if (open) { open.items.push(k); open = null; }
+        if (!pairUp) out.push({ kind: 'pair', items: [k] });   // 見た目は一組の段と同じ
+        else if (open) { open.items.push(k); open = null; }
         else { open = { kind: 'pair', items: [k] }; out.push(open); }
       } else {
         out.push(r >= WIDE ? { kind: 'full', items: [k] } : { kind: 'single', items: [k], side: 'c' });
@@ -299,6 +305,21 @@
 
   addEventListener('resize', () => { if (open && !busy) place(fit(photos[cur])); });
 
+  // 画面幅が 900px をまたいだら組み直す。描いてあった写真までは描き直し、拡大中の写真はそのまま追う
+  wideMQ.addEventListener('change', () => {
+    if (!byDate.length) return;
+    const shown = rows.slice(0, rendered).reduce((t, row) => t + row.items.length, 0);
+    const curPhoto = cur >= 0 ? photos[cur] : null;
+    feed.textContent = '';
+    rendered = 0; rowOf.length = 0; elOf.length = 0;
+    if (!sentinel.isConnected) feed.after(sentinel);
+    layout();
+    let need = 0;
+    for (let n = 0; need < rows.length && n < shown; need++) n += rows[need].items.length;
+    renderRows(Math.max(need, BATCH));
+    if (curPhoto) cur = photos.indexOf(curPhoto);
+  });
+
   feed.addEventListener('click', e => {
     const a = e.target.closest('.ph');
     if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -310,12 +331,12 @@
   fetch('data/artworks.json')
     .then(r => r.json())
     .then(data => {
-      photos = (data.artworks || [])
+      byDate = (data.artworks || [])
         .map((p, k) => ({ p, k }))
         .filter(({ p }) => p && p.id && p.original)
         .sort((a, b) => (b.p.date || '').localeCompare(a.p.date || '') || a.k - b.k)
         .map(({ p }) => p);
-      $('count').textContent = `${photos.length} photographs`;
+      $('count').textContent = `${byDate.length} photographs`;
       layout();
       renderRows(BATCH);
       // 足した直後も目印がまだ近くにあれば、交差の変化は起きないので自分で続けて足す
