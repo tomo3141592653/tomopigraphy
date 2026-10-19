@@ -1,6 +1,32 @@
 {
   "artworks": [
     {
+      "id": "20261020_DSC08619_1",
+      "title": "",
+      "description": "",
+      "date": "2026-10-20",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261020_DSC08619_1.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261020_DSC08619_1_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261020_DSC08619_1.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_1920w.jpg",
+        "2560": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261020_DSC08619_1_2560w.jpg"
+      },
+      "dimensions": {
+        "width": 6000,
+        "height": 4000
+      },
+      "color": "#6d6866",
+      "fileSize": 22381082
+    },
+    {
       "id": "20261020_D9C7EC17-A11A-4EE7-87B6-A6678B739D02",
       "title": "池島",
       "description": "",
@@ -16008,6 +16034,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 716,
-  "lastUpdated": "2026-10-19T15:44:18.336Z"
+  "totalCount": 717,
+  "lastUpdated": "2026-10-19T16:02:37.700Z"
 }
