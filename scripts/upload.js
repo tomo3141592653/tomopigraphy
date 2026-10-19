@@ -234,6 +234,18 @@ class ArtworkUploader {
         }
         
         fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+        this.updateOgImage(artwork);
+    }
+
+    // Twitter などのカードはトップページの og:image しか見ないので、いちばん新しい写真に差し替える
+    updateOgImage(artwork) {
+        const indexPath = path.join(__dirname, '../docs/index.html');
+        const r = artwork.responsive || {};
+        const url = r['1280'] || r['1024'] || artwork.original;
+        if (!url || !fs.existsSync(indexPath)) return;
+        const html = fs.readFileSync(indexPath, 'utf8');
+        const next = html.replace(/(<meta property="og:image" content=")[^"]*(">)/, `$1${url}$2`);
+        if (next !== html) fs.writeFileSync(indexPath, next);
     }
 }
 
