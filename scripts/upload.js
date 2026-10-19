@@ -235,6 +235,7 @@ class ArtworkUploader {
         
         fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
         this.updateOgImage(artwork);
+        require('./photo-pages').writePage(artwork);
     }
 
     // Twitter などのカードはトップページの og:image しか見ないので、いちばん新しい写真に差し替える

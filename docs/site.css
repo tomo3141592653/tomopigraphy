@@ -151,7 +151,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   position: fixed; inset: 0; z-index: 10;
   background: rgba(10, 10, 10, 0);
   transition: background .45s var(--ease);
-  touch-action: none;
+  touch-action: pinch-zoom;   /* 払う操作は自前で取るが、指で広げて細部を見るのはブラウザに任せる */
   cursor: var(--cur, default);
   user-select: none; -webkit-user-select: none;
 }
@@ -201,7 +201,18 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   opacity: 0; transition: opacity .4s var(--ease);
   pointer-events: none;
 }
-.lb.is-open .lb-close, .lb.is-open .lb-count { opacity: 1; }
+.lb-link {
+  position: absolute;
+  top: max(8px, env(safe-area-inset-top)); left: max(8px, env(safe-area-inset-left));
+  height: 52px; padding: 0 14px;
+  color: rgba(255, 255, 255, .62);
+  font-size: 15px; letter-spacing: .04em;
+  cursor: pointer;
+  opacity: 0; transition: opacity .4s var(--ease), color .2s;
+}
+.lb-link:hover { color: #fff; }
+.lb-link:focus-visible { outline: 1px solid rgba(255, 255, 255, .55); outline-offset: -4px; }
+.lb.is-open .lb-close, .lb.is-open .lb-count, .lb.is-open .lb-link { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; }

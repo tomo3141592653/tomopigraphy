@@ -9,7 +9,7 @@
   const $ = id => document.getElementById(id);
   const feed = $('feed'), sentinel = $('sentinel');
   const lb = $('lb'), frame = $('lbFrame'), lo = $('lbLo'), hi = $('lbHi');
-  const closeBtn = $('lbClose'), counter = $('lbCount');
+  const closeBtn = $('lbClose'), counter = $('lbCount'), linkBtn = $('lbLink');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const EASE = 'cubic-bezier(.2,.7,.1,1)';
 
@@ -261,20 +261,28 @@
     lb.classList.toggle('at-next', !left && cur < photos.length - 1);
   }
 
+  // 指で広げている最中・広げたあとは、払う操作として扱わない(見たい場所へ動かしただけで次の写真へ行かないように)
   let down = null;
+  const touching = new Set();
+  const zoomed = () => !!(window.visualViewport && visualViewport.scale > 1.01);
   lb.addEventListener('pointermove', e => {
     updateCursor(e.clientX);
     if (!down || e.pointerType === 'mouse') return;
+    if (touching.size > 1 || zoomed()) { down = null; frame.style.transform = ''; lb.style.background = ''; return; }
     const dx = e.clientX - down.x, dy = e.clientY - down.y;
     if (!busy) frame.style.transform = Math.abs(dx) > Math.abs(dy)
       ? `translateX(${dx * .6}px)` : (dy > 0 ? `translateY(${dy * .6}px)` : '');
     if (dy > 0 && Math.abs(dy) > Math.abs(dx)) lb.style.background = `rgba(10,10,10,${Math.max(.3, 1 - dy / 400)})`;
   });
   lb.addEventListener('pointerdown', e => {
-    if (e.target.closest('.lb-close') || e.button !== 0) return;
+    if (e.pointerType !== 'mouse') touching.add(e.pointerId);
+    if (e.target.closest('.lb-close, .lb-link') || e.button !== 0) return;
+    if (touching.size > 1 || zoomed()) { down = null; return; }
     down = { x: e.clientX, y: e.clientY, t: performance.now() };
   });
+  const lift = e => touching.delete(e.pointerId);
   const release = e => {
+    lift(e);
     if (!down) return;
     const dx = e.clientX - down.x, dy = e.clientY - down.y;
     down = null;
@@ -285,7 +293,7 @@
     if (dy > 90 && dy > Math.abs(dx)) requestClose();
   };
   lb.addEventListener('pointerup', release);
-  lb.addEventListener('pointercancel', () => { down = null; frame.style.transform = ''; lb.style.background = ''; });
+  lb.addEventListener('pointercancel', e => { lift(e); down = null; frame.style.transform = ''; lb.style.background = ''; });
   lb.addEventListener('contextmenu', e => e.preventDefault());
 
   // フォーカスの輪はキーボードで操作しているときだけ見せる
@@ -295,12 +303,28 @@
 
   closeBtn.addEventListener('click', e => { e.stopPropagation(); requestClose(); });
 
+  // その写真のページの URL を渡す。カードにその写真が出る(docs/p/<id>.html、scripts/photo-pages.js)
+  linkBtn.addEventListener('click', async e => {
+    e.stopPropagation();
+    const url = new URL(`p/${encodeURIComponent(photos[cur].id)}.html`, location.href.split('#')[0]).href;
+    const touch = matchMedia('(pointer: coarse)').matches;
+    try {
+      if (touch && navigator.share) { await navigator.share({ url }); return; }
+      await navigator.clipboard.writeText(url);
+      linkBtn.textContent = 'copied';
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+      prompt('', url);
+    }
+    setTimeout(() => { linkBtn.textContent = 'link'; }, 1400);
+  });
+
   addEventListener('keydown', e => {
     if (!open) return;
     if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
     else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
     else if (e.key === 'Escape') { e.preventDefault(); requestClose(); }
-    else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
+    else if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === closeBtn ? linkBtn : closeBtn).focus(); }
   });
 
   addEventListener('resize', () => { if (open && !busy) place(fit(photos[cur])); });
