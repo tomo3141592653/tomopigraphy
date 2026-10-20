@@ -1,6 +1,31 @@
 {
   "artworks": [
     {
+      "id": "20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E",
+      "title": "",
+      "description": "",
+      "date": "2026-10-21",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E_1920w.jpg"
+      },
+      "dimensions": {
+        "width": 2048,
+        "height": 1536
+      },
+      "color": "#555555",
+      "fileSize": 1331901
+    },
+    {
       "id": "20261021_1439C620-1BBC-487D-A86F-008EB8DA51AD",
       "title": "",
       "description": "",
@@ -16106,6 +16131,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 720,
-  "lastUpdated": "2026-10-20T18:00:34.704Z"
+  "totalCount": 721,
+  "lastUpdated": "2026-10-20T18:01:23.699Z"
 }
