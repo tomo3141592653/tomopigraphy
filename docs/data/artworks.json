@@ -1,6 +1,27 @@
 {
   "artworks": [
     {
+      "id": "20261022_IMG_3610",
+      "title": "",
+      "description": "",
+      "date": "2026-10-22",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261022_IMG_3610.png",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261022_IMG_3610_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261022_IMG_3610.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261022_IMG_3610_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261022_IMG_3610_768w.jpg"
+      },
+      "dimensions": {
+        "width": 810,
+        "height": 1080
+      },
+      "color": "#806253",
+      "fileSize": 2030441
+    },
+    {
       "id": "20261021_3A10F1B2-F3E1-4B08-9EA6-12A32AC5082E",
       "title": "",
       "description": "",
@@ -16131,6 +16152,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 721,
-  "lastUpdated": "2026-10-20T18:01:23.699Z"
+  "totalCount": 722,
+  "lastUpdated": "2026-10-21T20:57:38.849Z"
 }
