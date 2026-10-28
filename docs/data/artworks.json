@@ -1,6 +1,32 @@
 {
   "artworks": [
     {
+      "id": "20261029_DSC05854",
+      "title": "アゼルバイジャン､ヘイダル・アリエフ・センター",
+      "description": "",
+      "date": "2026-10-29",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261029_DSC05854.JPG",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261029_DSC05854_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261029_DSC05854.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_1920w.jpg",
+        "2560": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_DSC05854_2560w.jpg"
+      },
+      "dimensions": {
+        "width": 4000,
+        "height": 6000
+      },
+      "color": "#8294aa",
+      "fileSize": 4063232
+    },
+    {
       "id": "20261028_DSC04871",
       "title": "",
       "description": "",
@@ -16230,6 +16256,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 725,
-  "lastUpdated": "2026-10-28T05:21:14.092Z"
+  "totalCount": 726,
+  "lastUpdated": "2026-10-28T23:50:36.409Z"
 }
