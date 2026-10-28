@@ -1,6 +1,32 @@
 {
   "artworks": [
     {
+      "id": "20261029_IMG_2259_2",
+      "title": "",
+      "description": "",
+      "date": "2026-10-29",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261029_IMG_2259_2.jpg",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261029_IMG_2259_2_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261029_IMG_2259_2.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_1920w.jpg",
+        "2560": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261029_IMG_2259_2_2560w.jpg"
+      },
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "color": "#2b2c35",
+      "fileSize": 2506783
+    },
+    {
       "id": "20261029_IMG_9490_2",
       "title": "陸前高田",
       "description": "",
@@ -16308,6 +16334,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 728,
-  "lastUpdated": "2026-10-28T23:55:20.257Z"
+  "totalCount": 729,
+  "lastUpdated": "2026-10-28T23:57:47.670Z"
 }
