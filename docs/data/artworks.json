@@ -1,6 +1,32 @@
 {
   "artworks": [
     {
+      "id": "20261031_DSC04844",
+      "title": "せんす",
+      "description": "",
+      "date": "2026-10-31",
+      "year": 2026,
+      "month": 10,
+      "original": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/originals/2026/10/20261031_DSC04844.JPG",
+      "thumbnail": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/thumbnails/2026/10/20261031_DSC04844_thumb.jpg",
+      "webp": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/webp/2026/10/20261031_DSC04844.webp",
+      "responsive": {
+        "640": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_640w.jpg",
+        "768": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_768w.jpg",
+        "1024": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_1024w.jpg",
+        "1280": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_1280w.jpg",
+        "1536": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_1536w.jpg",
+        "1920": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_1920w.jpg",
+        "2560": "https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/responsive/2026/10/20261031_DSC04844_2560w.jpg"
+      },
+      "dimensions": {
+        "width": 4000,
+        "height": 6000
+      },
+      "color": "#8fb1d1",
+      "fileSize": 6389760
+    },
+    {
       "id": "20261031_DSC_0099",
       "title": "",
       "description": "",
@@ -16360,6 +16386,6 @@
       "color": "#93806f"
     }
   ],
-  "totalCount": 730,
-  "lastUpdated": "2026-10-31T02:31:35.412Z"
+  "totalCount": 731,
+  "lastUpdated": "2026-10-31T02:48:22.853Z"
 }
