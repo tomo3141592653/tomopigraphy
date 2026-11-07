@@ -93,7 +93,7 @@
 
   // 写真の追加を拾うため、半日ごとに一覧を読み直す
   function load() {
-    return fetch('data/artworks.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (d) {
+    return fetch('https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/data/artworks.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (d) {
       all = (d.artworks || []).filter(function (p) { return p && p.original; });
       refill();
     });

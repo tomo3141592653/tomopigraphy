@@ -303,10 +303,10 @@
 
   closeBtn.addEventListener('click', e => { e.stopPropagation(); requestClose(); });
 
-  // その写真のページの URL を渡す。カードにその写真が出る(docs/p/<id>.html、scripts/photo-pages.js)
+  // その写真のページの URL を渡す。カードにその写真が出る(S3 の p/<id>.html、scripts/publish.js)
   linkBtn.addEventListener('click', async e => {
     e.stopPropagation();
-    const url = new URL(`p/${encodeURIComponent(photos[cur].id)}.html`, location.href.split('#')[0]).href;
+    const url = `https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/p/${encodeURIComponent(photos[cur].id)}.html`;
     const touch = matchMedia('(pointer: coarse)').matches;
     try {
       if (touch && navigator.share) { await navigator.share({ url }); return; }
@@ -352,7 +352,8 @@
   });
 
   // ── 起動
-  fetch('data/artworks.json')
+  // 目録は S3 に置いてある（投稿のたびに scripts/publish.js が書く）
+  fetch('https://tomo3141592653-gallery.s3.ap-northeast-1.amazonaws.com/data/artworks.json', { cache: 'no-cache' })
     .then(r => r.json())
     .then(data => {
       byDate = (data.artworks || [])

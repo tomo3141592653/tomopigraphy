@@ -5,3 +5,5 @@
 config/config.json
 
 docs/images/*.jpg
+# 目録の正本は手元、公開は S3（scripts/publish.js）
+docs/data/artworks.json

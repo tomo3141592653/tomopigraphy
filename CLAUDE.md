@@ -36,7 +36,7 @@ npm run clean                 # Cleanup utility
 - **Technology**: Pure HTML/CSS/JS (no framework dependencies)
 - **Entry Point**: `docs/index.html`
 - **Core Logic**: `docs/js/gallery.js` contains the PixelGallery class
-- **Data Source**: `docs/data/artworks.json` (artwork metadata)
+- **Data Source**: S3 の `data/artworks.json`（サイトはここを読む）。手元の正本は `docs/data/artworks.json`（git 管理外）で、`scripts/publish.js` が S3 に置く。履歴はバケットのバージョニング（古い版は30日で消える）
 - **Styling**: Cyberpunk-inspired design with green gradients
 
 ### Backend (Node.js CLI Tools)
@@ -49,7 +49,7 @@ npm run clean                 # Cleanup utility
 1. **Content Creation**: Images uploaded via `scripts/upload.js` or `scripts/batch-upload.js`
 2. **Processing**: Sharp.js generates multiple formats and sizes
 3. **Storage**: All variants stored in S3 with structured URLs
-4. **Metadata**: `docs/data/artworks.json` updated with image data and S3 URLs
+4. **Metadata**: 手元の `docs/data/artworks.json` に追記し、`scripts/publish.js` で S3 の `data/artworks.json` と写真ごとのページ `p/<id>.html`、トップのカード画像 `og/latest.jpg` を置く（git の commit / push は不要）
 5. **Frontend**: Gallery loads metadata and displays images with responsive srcsets
 
 ## Configuration

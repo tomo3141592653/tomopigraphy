@@ -1,12 +1,13 @@
-// 写真ごとの小さなページ docs/p/<id>.html を作る。中身はその写真の og:image と、/#<id> への転送だけ。
+// 写真ごとの小さなページ p/<id>.html（S3 に置く。scripts/publish.js）の中身を作る。中身はその写真の og:image と、/#<id> への転送だけ。
 // Twitter などのカードはリンク先 HTML の og:image しか読まず、#以降も JavaScript も見ないので、
 // 特定の写真を貼ったときにその写真が出るよう、写真ごとに HTML を置く。
-//   node scripts/photo-pages.js        # artworks.json の全写真ぶんを作り直す
+// 全写真ぶんを置き直すときは node scripts/publish.js --all-pages
+// 2026-11-07 より前に共有したリンク（github.io の p/<id>.html）は docs/p/ に残してある。
 const fs = require('fs');
 const path = require('path');
 
 const SITE = 'https://tomo3141592653.github.io/tomopigraphy/';
-const DIR = path.join(__dirname, '../docs/p');
+const CDN = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/config.json'), 'utf8')).s3.cdnDomain.replace(/\/$/, '');
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
@@ -24,11 +25,11 @@ function pageHtml(a) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc || 'Photographs by Tomoyoshi Hirata.')}">
 <meta property="og:type" content="article">
-<meta property="og:url" content="${SITE}p/${id}.html">
+<meta property="og:url" content="${CDN}/p/${id}.html">
 <meta property="og:image" content="${esc(img)}">
 <meta name="twitter:card" content="summary_large_image">
-<meta http-equiv="refresh" content="0; url=../#${id}">
-<script>location.replace('../#${id}');</script>
+<meta http-equiv="refresh" content="0; url=${SITE}#${id}">
+<script>location.replace('${SITE}#${id}');</script>
 <style>body{background:#0a0a0a}</style>
 </head>
 <body></body>
@@ -36,20 +37,4 @@ function pageHtml(a) {
 `;
 }
 
-function writePage(a) {
-    if (!a || !a.id) return null;
-    fs.mkdirSync(DIR, { recursive: true });
-    const file = path.join(DIR, `${a.id}.html`);
-    const html = pageHtml(a);
-    if (!fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== html) fs.writeFileSync(file, html);
-    return file;
-}
-
-module.exports = { writePage, pageHtml };
-
-if (require.main === module) {
-    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../docs/data/artworks.json'), 'utf8'));
-    const list = (data.artworks || []).filter(a => a && a.id && a.original);
-    list.forEach(writePage);
-    console.log(`${list.length} 枚ぶんのページを ${DIR} に置いた`);
-}
+module.exports = { pageHtml };
