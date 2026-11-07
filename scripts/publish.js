@@ -9,6 +9,7 @@
 // 履歴はバケットのバージョニングで残る（古い目録に戻すときは S3 の以前のバージョンから）。
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 const AWS = require('aws-sdk');
 const { pageHtml } = require('./photo-pages');
 
@@ -25,14 +26,17 @@ if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
 }
 const s3 = new AWS.S3({ region: config.s3.region });
 
+// S3 は送るときに圧縮しないので、gzip で置いて Content-Encoding を付ける（目録 1MB → 約46KB）
 const put = (Key, Body, ContentType, CacheControl) =>
-    s3.putObject({ Bucket: BUCKET, Key, Body, ContentType, CacheControl }).promise();
+    s3.putObject({ Bucket: BUCKET, Key, Body: zlib.gzipSync(Body, { level: 9 }), ContentEncoding: 'gzip',
+                   ContentType, CacheControl }).promise();
 
 async function publish({ pages = [], allPages = false, log = console.log } = {}) {
     const body = fs.readFileSync(ARTWORKS, 'utf8');
     const data = JSON.parse(body);   // 壊れた JSON を上げない
     const arts = (data.artworks || []).filter(a => a && a.id && a.original);
-    await put('data/artworks.json', body, 'application/json; charset=utf-8', 'no-cache');
+    // 手元は読みやすい形のまま、S3 には空白を詰めて置く
+    await put('data/artworks.json', JSON.stringify(data), 'application/json; charset=utf-8', 'no-cache');
     log(`✅ 目録を S3 に置いた（${arts.length} 枚）`);
 
     // トップページのカード画像: いちばん新しく足した写真（目録の先頭）を固定の名前に写す
